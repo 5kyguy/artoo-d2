@@ -1,4 +1,7 @@
 run_logged $OMARCHY_INSTALL/packaging/base.sh
+run_logged $OMARCHY_INSTALL/packaging/aur.sh
+run_logged $OMARCHY_INSTALL/packaging/dev-runtimes.sh
+run_logged $OMARCHY_INSTALL/packaging/voxtype.sh
 run_logged $OMARCHY_INSTALL/packaging/fonts.sh
 run_logged $OMARCHY_INSTALL/packaging/nvim.sh
 run_logged $OMARCHY_INSTALL/packaging/icons.sh

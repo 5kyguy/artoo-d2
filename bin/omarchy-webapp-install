@@ -59,8 +59,12 @@ else
   ICON_PATH="$ICON_DIR/$ICON_REF"
 fi
 
-# Use custom exec if provided, otherwise default behavior
-EXEC_COMMAND="${CUSTOM_EXEC:-omarchy-launch-webapp $APP_URL}"
+# Use Helium for webapps when available, else default browser
+if command -v helium &>/dev/null; then
+  EXEC_COMMAND="helium --app=\"$APP_URL\""
+else
+  EXEC_COMMAND="omarchy-launch-webapp $APP_URL"
+fi
 
 # Create application .desktop file
 DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"

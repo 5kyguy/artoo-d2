@@ -1,9 +1,41 @@
-# Omarchy core package list installed via install/packaging/base.sh
-# This file is also used by the ISO builder when determining needs
+# Omarchy package list installed via install/packaging/base.sh
+# Includes former omarchy-other.packages (base system + optional deps).
 
-1password-beta
-1password-cli
-aether
+# --- Former omarchy-other.packages (system / base) ---
+autoconf-archive
+base
+base-devel
+btrfs-progs
+dart
+dkms
+egl-wayland
+git
+gst-plugin-pipewire
+gtk4-layer-shell
+htop
+intltool
+jdk-openjdk
+libpulse
+libsass
+limine
+limine-mkinitcpio-hook
+limine-snapper-sync
+linux
+linux-firmware
+linux-headers
+pipewire
+pipewire-alsa
+pipewire-jack
+pipewire-pulse
+qt6-wayland
+sassc
+snapper
+webp-pixbuf-loader
+wget
+yay-debug
+zram-generator
+
+# --- Core desktop & apps ---
 alacritty
 alsa-utils
 amd-ucode
@@ -14,9 +46,9 @@ bluetui
 bolt
 brightnessctl
 btop
+brave-browser
 chromium
 clang
-claude-code
 cups
 cups-browsed
 cups-filters
@@ -24,7 +56,6 @@ cups-pdf
 docker
 docker-buildx
 docker-compose
-dotnet-runtime-9.0
 dust
 evince
 exfatprogs
@@ -54,7 +85,7 @@ hyprpicker
 hyprsunset
 imagemagick
 impala
-imv
+eog
 inetutils
 inxi
 iwd
@@ -68,7 +99,6 @@ less
 libsecret
 libyaml
 libqalculate
-libreoffice-fresh
 llvm
 localsend
 luarocks
@@ -76,7 +106,7 @@ mako
 man-db
 mariadb-libs
 mise
-mpv
+vlc
 nautilus
 nautilus-python
 gnome-disk-utility
@@ -85,10 +115,8 @@ noto-fonts-emoji
 nss-mdns
 nvim
 obs-studio
-obsidian
 omarchy-nvim
 omarchy-walker
-opencode
 pamixer
 pinta
 playerctl
@@ -102,13 +130,10 @@ python-poetry-core
 python-terminaltexteffects
 qt5-wayland
 ripgrep
-ruby
 rust
 satty
 sddm
-signal-desktop
 slurp
-spotify
 starship
 sushi
 swaybg
@@ -117,16 +142,14 @@ system-config-printer
 tldr
 tree-sitter-cli
 tmux
-tobi-try
-ttf-ia-writer
-ttf-jetbrains-mono-nerd
-typora
+ttf-cascadia-mono-nerd
 tzupdate
 ufw
 ufw-docker
 unzip
 usage
 uwsm
+steam
 waybar
 whois
 wireless-regdb
@@ -138,7 +161,6 @@ xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
 xdg-terminal-exec
 xmlstarlet
-xournalpp
 yaru-icon-theme
 yay
 zoxide

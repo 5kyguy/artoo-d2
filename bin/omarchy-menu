@@ -263,12 +263,11 @@ show_setup_system_menu() {
 }
 
 show_install_menu() {
-  case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n  Service\n  Style\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n󰍲  Windows\n  Gaming") in
+  case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n  Style\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n  Gaming") in
   *Package*) terminal omarchy-pkg-install ;;
   *AUR*) terminal omarchy-pkg-aur-install ;;
   *Web*) present_terminal omarchy-webapp-install ;;
   *TUI*) present_terminal omarchy-tui-install ;;
-  *Service*) show_install_service_menu ;;
   *Style*) show_install_style_menu ;;
   *Development*) show_install_development_menu ;;
   *Editor*) show_install_editor_menu ;;
@@ -279,34 +278,18 @@ show_install_menu() {
   esac
 }
 
-show_install_service_menu() {
-  case $(menu "Install" "  Dropbox\n  Tailscale\n󱇱  NordVPN\n󰟵  Bitwarden\n  Chromium Account") in
-  *Dropbox*) present_terminal omarchy-install-dropbox ;;
-  *Tailscale*) present_terminal omarchy-install-tailscale ;;
-  *NordVPN*) present_terminal omarchy-install-nordvpn ;;
-  *Bitwarden*) install_and_launch "Bitwarden" "bitwarden bitwarden-cli" "bitwarden" ;;
-  *Chromium*) present_terminal omarchy-install-chromium-google-account ;;
-  *) show_install_menu ;;
-  esac
-}
-
 show_install_editor_menu() {
-  case $(menu "Install" "  VSCode\n  Cursor\n  Zed\n  Sublime Text\n  Helix\n  Emacs") in
+  case $(menu "Install" "  VSCode\n  Zed") in
   *VSCode*) present_terminal omarchy-install-vscode ;;
-  *Cursor*) install_and_launch "Cursor" "cursor-bin" "cursor" ;;
   *Zed*) install_and_launch "Zed" "zed" "dev.zed.Zed" ;;
-  *Sublime*) install_and_launch "Sublime Text" "sublime-text-4" "sublime_text" ;;
-  *Helix*) install "Helix" "helix" ;;
-  *Emacs*) install "Emacs" "emacs-wayland" && systemctl --user enable --now emacs.service ;;
   *) show_install_menu ;;
   esac
 }
 
 show_install_terminal_menu() {
-  case $(menu "Install" "  Alacritty\n  Ghostty\n  Kitty") in
+  case $(menu "Install" "  Alacritty\n  Ghostty") in
   *Alacritty*) install_terminal "alacritty" ;;
   *Ghostty*) install_terminal "ghostty" ;;
-  *Kitty*) install_terminal "kitty" ;;
   *) show_install_menu ;;
   esac
 }
@@ -350,21 +333,14 @@ show_install_style_menu() {
 }
 
 show_install_development_menu() {
-  case $(menu "Install" "󰫏  Ruby on Rails\n  Docker DB\n  JavaScript\n  Go\n  PHP\n  Python\n  Elixir\n  Zig\n  Rust\n  Java\n  .NET\n  OCaml\n  Clojure\n  Scala") in
-  *Rails*) present_terminal "omarchy-install-dev-env ruby" ;;
+  case $(menu "Install" "  Docker DB\n  JavaScript\n  Go\n  Python\n  Elixir\n  Zig\n  Rust") in
   *Docker*) present_terminal omarchy-install-docker-dbs ;;
   *JavaScript*) show_install_javascript_menu ;;
   *Go*) present_terminal "omarchy-install-dev-env go" ;;
-  *PHP*) show_install_php_menu ;;
   *Python*) present_terminal "omarchy-install-dev-env python" ;;
   *Elixir*) show_install_elixir_menu ;;
   *Zig*) present_terminal "omarchy-install-dev-env zig" ;;
   *Rust*) present_terminal "omarchy-install-dev-env rust" ;;
-  *Java*) present_terminal "omarchy-install-dev-env java" ;;
-  *NET*) present_terminal "omarchy-install-dev-env dotnet" ;;
-  *OCaml*) present_terminal "omarchy-install-dev-env ocaml" ;;
-  *Clojure*) present_terminal "omarchy-install-dev-env clojure" ;;
-  *Scala*) present_terminal "omarchy-install-dev-env scala" ;;
   *) show_install_menu ;;
   esac
 }
@@ -378,33 +354,21 @@ show_install_javascript_menu() {
   esac
 }
 
-show_install_php_menu() {
-  case $(menu "Install" "  PHP\n  Laravel\n  Symfony") in
-  *PHP*) present_terminal "omarchy-install-dev-env php" ;;
-  *Laravel*) present_terminal "omarchy-install-dev-env laravel" ;;
-  *Symfony*) present_terminal "omarchy-install-dev-env symfony" ;;
-  *) show_install_development_menu ;;
-  esac
-}
-
 show_install_elixir_menu() {
-  case $(menu "Install" "  Elixir\n  Phoenix") in
+  case $(menu "Install" "  Elixir") in
   *Elixir*) present_terminal "omarchy-install-dev-env elixir" ;;
-  *Phoenix*) present_terminal "omarchy-install-dev-env phoenix" ;;
   *) show_install_development_menu ;;
   esac
 }
 
 show_remove_menu() {
-  case $(menu "Remove" "󰣇  Package\n  Web App\n  TUI\n󰵮  Development\n󰏓  Preinstalls\n  Dictation\n󰸌  Theme\n󰍲  Windows\n󰈷  Fingerprint\n  Fido2") in
+  case $(menu "Remove" "󰣇  Package\n  Web App\n  TUI\n󰵮  Development\n  Dictation\n󰸌  Theme\n󰈷  Fingerprint\n  Fido2") in
   *Package*) terminal omarchy-pkg-remove ;;
   *Web*) present_terminal omarchy-webapp-remove ;;
   *TUI*) present_terminal omarchy-tui-remove ;;
   *Development*) show_remove_development_menu ;;
-  *Preinstalls*) present_terminal omarchy-remove-preinstalls ;;
   *Dictation*) present_terminal omarchy-voxtype-remove ;;
   *Theme*) present_terminal omarchy-theme-remove ;;
-  *Windows*) present_terminal "omarchy-windows-vm remove" ;;
   *Fingerprint*) present_terminal "omarchy-setup-fingerprint --remove" ;;
   *Fido2*) present_terminal "omarchy-setup-fido2 --remove" ;;
   *) show_main_menu ;;
@@ -412,20 +376,13 @@ show_remove_menu() {
 }
 
 show_remove_development_menu() {
-  case $(menu "Remove" "󰫏  Ruby on Rails\n  JavaScript\n  Go\n  PHP\n  Python\n  Elixir\n  Zig\n  Rust\n  Java\n  .NET\n  OCaml\n  Clojure\n  Scala") in
-  *Rails*) present_terminal "omarchy-remove-dev-env ruby" ;;
+  case $(menu "Remove" "  JavaScript\n  Go\n  Python\n  Elixir\n  Zig\n  Rust") in
   *JavaScript*) show_remove_javascript_menu ;;
   *Go*) present_terminal "omarchy-remove-dev-env go" ;;
-  *PHP*) show_remove_php_menu ;;
   *Python*) present_terminal "omarchy-remove-dev-env python" ;;
   *Elixir*) show_remove_elixir_menu ;;
   *Zig*) present_terminal "omarchy-remove-dev-env zig" ;;
   *Rust*) present_terminal "omarchy-remove-dev-env rust" ;;
-  *Java*) present_terminal "omarchy-remove-dev-env java" ;;
-  *NET*) present_terminal "omarchy-remove-dev-env dotnet" ;;
-  *OCaml*) present_terminal "omarchy-remove-dev-env ocaml" ;;
-  *Clojure*) present_terminal "omarchy-remove-dev-env clojure" ;;
-  *Scala*) present_terminal "omarchy-remove-dev-env scala" ;;
   *) show_remove_menu ;;
   esac
 }
@@ -439,19 +396,9 @@ show_remove_javascript_menu() {
   esac
 }
 
-show_remove_php_menu() {
-  case $(menu "Remove" "  PHP\n  Laravel\n  Symfony") in
-  *PHP*) present_terminal "omarchy-remove-dev-env php" ;;
-  *Laravel*) present_terminal "omarchy-remove-dev-env laravel" ;;
-  *Symfony*) present_terminal "omarchy-remove-dev-env symfony" ;;
-  *) show_remove_development_menu ;;
-  esac
-}
-
 show_remove_elixir_menu() {
-  case $(menu "Remove" "  Elixir\n  Phoenix") in
+  case $(menu "Remove" "  Elixir") in
   *Elixir*) present_terminal "omarchy-remove-dev-env elixir" ;;
-  *Phoenix*) present_terminal "omarchy-remove-dev-env phoenix" ;;
   *) show_remove_development_menu ;;
   esac
 }
