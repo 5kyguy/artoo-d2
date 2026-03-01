@@ -15,7 +15,6 @@ run_logged $R2D2_INSTALL/config/xcompose.sh
 run_logged $R2D2_INSTALL/config/docker.sh
 run_logged $R2D2_INSTALL/config/flatpak.sh
 run_logged $R2D2_INSTALL/config/mimetypes.sh
-run_logged $R2D2_INSTALL/config/localdb.sh
 run_logged $R2D2_INSTALL/config/walker-elephant.sh
 run_logged $R2D2_INSTALL/config/fast-shutdown.sh
 run_logged $R2D2_INSTALL/config/input-group.sh

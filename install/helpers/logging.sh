@@ -14,7 +14,12 @@ start_log_output() {
 
   (
     local log_lines=20
-    local max_line_width=$((LOGO_WIDTH - 4))
+    local max_line_width=${LOG_LINE_WIDTH:-$((LOGO_WIDTH - 4))}
+    # Center the log block: prefix "  → " (4 chars) + content (max_line_width)
+    local log_block_width=$((4 + max_line_width))
+    local log_padding=$(((TERM_WIDTH - log_block_width) / 2))
+    local log_padding_spaces
+    log_padding_spaces=$(printf "%*s" $log_padding "")
 
     while true; do
       # Read the last N lines into an array
@@ -30,11 +35,11 @@ start_log_output() {
           line="${line:0:max_line_width}..."
         fi
 
-        # Add clear line escape and formatted output for each line
+        # Add clear line escape and formatted output for each line (centered)
         if [[ -n $line ]]; then
-          output+="${ANSI_CLEAR_LINE}${ANSI_GRAY}${PADDING_LEFT_SPACES}  → ${line}${ANSI_RESET}\n"
+          output+="${ANSI_CLEAR_LINE}${ANSI_GRAY}${log_padding_spaces}  → ${line}${ANSI_RESET}\n"
         else
-          output+="${ANSI_CLEAR_LINE}${PADDING_LEFT_SPACES}\n"
+          output+="${ANSI_CLEAR_LINE}${log_padding_spaces}\n"
         fi
       done
 

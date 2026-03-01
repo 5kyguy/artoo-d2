@@ -15,8 +15,8 @@
 }
 
 window#waybar {
-  background: transparent;
-  margin-top: 6px;
+  background-color: @bg;
+  margin: 0;
 }
 
 #custom-r2-d2,
@@ -28,22 +28,15 @@ window#waybar {
 #tray,
 #memory,
 #cpu,
-#temperature {
-  background-color: @bg;
+#temperature,
+#pulseaudio,
+#network,
+#bluetooth {
+  background-color: transparent;
   color: @fg-dim;
-  border-radius: 4px;
-  margin: 2px 4px;
+  border-radius: 0;
+  margin: 0;
   padding: 2px 7px;
-  font-weight: 600;
-}
-
-#island {
-  background-color: @bg;
-  color: @fg-dim;
-  border-radius: 4px;
-  margin: 2px 4px;
-  padding-right: 5px;
-  padding-left: 2px;
   font-weight: 600;
 }
 
@@ -62,7 +55,6 @@ window#waybar {
 
 #bluetooth,
 #network {
-  margin: 2px 6px;
   padding-right: 8px;
 }
 

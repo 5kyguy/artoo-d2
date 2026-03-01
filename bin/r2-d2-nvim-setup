@@ -1,0 +1,19 @@
+#!/bin/bash
+# Copy R2-D2 nvim config (LazyVim + themes) to ~/.config/nvim.
+# Safe to re-run (overwrites with repo version).
+
+set -e
+
+R2D2_PATH="${R2D2_PATH:-$HOME/.local/share/r2-d2}"
+SRC="$R2D2_PATH/config/nvim"
+DEST="$HOME/.config/nvim"
+
+if [[ ! -d "$SRC" ]]; then
+  echo "r2-d2-nvim-setup: source not found: $SRC" >&2
+  exit 1
+fi
+
+mkdir -p "$(dirname "$DEST")"
+# Copy so we don't break an existing nvim dir that has runtime data
+rsync -a --delete "$SRC/" "$DEST/" 2>/dev/null || cp -Rf "$SRC"/* "$DEST"/
+echo "r2-d2-nvim-setup: installed config to $DEST (LazyVim + vhs80 theme). Run nvim to bootstrap plugins."

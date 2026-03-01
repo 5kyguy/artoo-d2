@@ -2,15 +2,15 @@
   "reload_style_on_change": true,
   "layer": "top",
   "position": "top",
-  "spacing": 0,
+  "spacing": 1,
   "height": 26,
-  "margin-top": 5,
-  "margin-left": 5,
-  "margin-right": 5,
+  "margin-top": 0,
+  "margin-left": 0,
+  "margin-right": 0,
 
-  "modules-left": ["battery", "pulseaudio", "network", "bluetooth", "tray"],
+  "modules-left": ["custom/r2-d2", "hyprland/workspaces", "cpu", "memory", "temperature"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/r2-d2", "hyprland/workspaces", "memory", "cpu", "temperature"],
+  "modules-right": ["tray", "bluetooth", "network", "pulseaudio", "battery"],
 
   "hyprland/workspaces": {
     "on-click": "activate",
@@ -26,21 +26,21 @@
       "7": "7",
       "8": "8",
       "9": "9",
-      "active": "●",
+      "active": "●"
     },
     "persistent-workspaces": {
       "1": [],
       "2": [],
       "3": [],
       "4": [],
-      "5": [],
-    },
+      "5": []
+    }
   },
 
   "custom/r2-d2": {
-    "format": "<span font='CaskaydiaMono Nerd Font Mono'></span>",
+    "format": "<span font='r2-d2'>\ue900</span>",
     "on-click": "r2-d2-menu",
-    "tooltip-format": "R2-D2 Menu\n\nSuper + Alt + Space",
+    "tooltip-format": "R2-D2 Menu\n\nSuper + Alt + Space"
   },
 
   "custom/update": {
@@ -49,14 +49,14 @@
     "on-click": "r2-d2-launch-floating-terminal-with-presentation r2-d2-update",
     "tooltip-format": "R2-D2 update available",
     "signal": 7,
-    "interval": 3600,
+    "interval": 3600
   },
 
   "custom/screenrecording-indicator": {
     "on-click": "r2-d2-cmd-screenrecord",
     "exec": "$HOME/.config/waybar/indicators/screen-recording.sh",
     "signal": 8,
-    "return-type": "json",
+    "return-type": "json"
   },
 
   "hyprland/window": {
@@ -73,25 +73,25 @@
       "(.*) - alacritty": "  $1",
       "(.*) - beepertexts": "󰻞  $1",
       "(.*discord)...(.*).. (.*)": " $2",
-      "(.*) - org.gnome.nautilus": "󰣆 $1",
-    },
+      "(.*) - org.gnome.nautilus": "󰣆 $1"
+    }
   },
 
   "tray": {
     "icon-size": 12,
     "spacing": 12,
-    "show-passive-items": true,
+    "show-passive-items": true
   },
 
   "memory": {
     "interval": 2,
-    "format": "  {percentage}%",
+    "format": "  {percentage}%"
   },
 
   "cpu": {
     "interval": 5,
     "format": "󰍛 {usage}%",
-    "on-click": "$TERMINAL -e btop",
+    "on-click": "$TERMINAL -e btop"
   },
 
   "temperature": {
@@ -99,7 +99,7 @@
     "format": "{temperatureC}°C",
     "tooltip-format": "CPU Temperature: {temperatureC}°C",
     "critical-threshold": 80,
-    "on-click": "$TERMINAL -e btop",
+    "on-click": "$TERMINAL -e btop"
   },
 
   "network": {
@@ -113,13 +113,13 @@
     "tooltip-format-disconnected": "Disconnected",
     "interval": 3,
     "spacing": 1,
-    "on-click": "r2-d2-launch-wifi",
+    "on-click": "r2-d2-launch-wifi"
   },
 
   "backlight": {
     "device": "amdgpu_bl0",
     "format": "{icon} {percent}%",
-    "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"],
+    "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"]
   },
 
   "bluetooth": {
@@ -127,7 +127,7 @@
     "format-disabled": "󰂲",
     "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "blueberry",
+    "on-click": "blueberry"
   },
 
   "pulseaudio": {
@@ -138,15 +138,14 @@
     "scroll-step": 5,
     "format-muted": "",
     "format-icons": {
-      "default": ["", "", ""],
-    },
+      "default": ["", "", ""]
+    }
   },
 
   "clock": {
     "format": "{:%A %H:%M}",
-    "format-alt": "{:%d %B W%V %Y}",
     "tooltip": false,
-    "on-click-right": "r2-d2-launch-floating-terminal-with-presentation r2-d2-tz-select",
+    "on-click-right": "r2-d2-launch-floating-terminal-with-presentation r2-d2-tz-select"
   },
 
   "battery": {
@@ -156,7 +155,7 @@
     "format-plugged": "",
     "format-icons": {
       "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
-      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
     "format-full": "󰂅",
     "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
@@ -165,7 +164,7 @@
     "on-click": "r2-d2-menu power",
     "states": {
       "warning": 20,
-      "critical": 10,
-    },
-  },
+      "critical": 10
+    }
+  }
 }

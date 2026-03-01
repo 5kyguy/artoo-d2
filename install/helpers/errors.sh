@@ -12,7 +12,7 @@ show_cursor() {
 show_log_tail() {
   if [[ -f $R2D2_INSTALL_LOG_FILE ]]; then
     local log_lines=$((TERM_HEIGHT - LOGO_HEIGHT - 35))
-    local max_line_width=$((LOGO_WIDTH - 4))
+    local max_line_width=${LOG_LINE_WIDTH:-$((LOGO_WIDTH - 4))}
 
     tail -n $log_lines "$R2D2_INSTALL_LOG_FILE" | while IFS= read -r line; do
       if ((${#line} > max_line_width)); then
@@ -35,7 +35,7 @@ show_failed_script_or_command() {
   else
     # Truncate long command lines to fit the display
     local cmd="$BASH_COMMAND"
-    local max_cmd_width=$((LOGO_WIDTH - 4))
+    local max_cmd_width=${LOG_LINE_WIDTH:-$((LOGO_WIDTH - 4))}
 
     if ((${#cmd} > max_cmd_width)); then
       cmd="${cmd:0:max_cmd_width}..."

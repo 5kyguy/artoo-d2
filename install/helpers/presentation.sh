@@ -31,6 +31,10 @@ LOGO_WIDTH=$(awk '{ if (length > max) max = length } END { print max+0 }' "$LOGO
 export LOGO_HEIGHT
 LOGO_HEIGHT=$(wc -l <"$LOGO_PATH" 2>/dev/null || echo 0)
 
+# Log area width: 50% of terminal (e.g. 1920px → ~240 cols → 180 cols), min 80
+export LOG_LINE_WIDTH=$((TERM_WIDTH * 50 / 100))
+((LOG_LINE_WIDTH < 80)) && LOG_LINE_WIDTH=80
+
 export PADDING_LEFT=$(((TERM_WIDTH - LOGO_WIDTH) / 2))
 export PADDING_LEFT_SPACES
 PADDING_LEFT_SPACES=$(printf "%*s" $PADDING_LEFT "")

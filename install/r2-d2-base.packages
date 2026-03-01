@@ -25,6 +25,7 @@ docker-buildx
 docker-compose
 dust
 egl-wayland
+elephant
 eog
 evince
 exfatprogs
@@ -99,6 +100,7 @@ noto-fonts-emoji
 nss-mdns
 obs-studio
 omarchy-keyring
+omarchy-walker
 r2-d2-nvim
 r2-d2-walker
 pamixer

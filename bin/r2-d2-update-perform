@@ -2,25 +2,27 @@
 
 set -e
 
+BIN="$(dirname "$0")"
+
 # Ensure screensaver/sleep doesn't set in during updates
 hyprctl dispatch tagwindow +noidle &>/dev/null || true
 
 # Capture update logs
 exec > >(tee "/tmp/r2-d2-update.log") 2>&1
 
-# Perform all update steps
-r2-d2-update-time
-r2-d2-update-keyring
-r2-d2-update-available-reset
-r2-d2-update-system-pkgs
-r2-d2-migrate
-r2-d2-update-aur-pkgs
-r2-d2-update-orphan-pkgs
-r2-d2-hook post-update
+# Perform all update steps (invoke by path so this works when run from menu without bin in PATH)
+"$BIN/r2-d2-update-time"
+"$BIN/r2-d2-update-keyring"
+"$BIN/r2-d2-update-available-reset"
+"$BIN/r2-d2-update-system-pkgs"
+"$BIN/r2-d2-migrate"
+"$BIN/r2-d2-update-aur-pkgs"
+"$BIN/r2-d2-update-orphan-pkgs"
+"$BIN/r2-d2-hook" post-update
 
-r2-d2-update-analyze-logs
+"$BIN/r2-d2-update-analyze-logs"
 
-r2-d2-update-restart
+"$BIN/r2-d2-update-restart"
 
 # Re-enable screensaver/sleep after updates
 hyprctl dispatch tagwindow -- -noidle &>/dev/null || true

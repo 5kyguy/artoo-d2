@@ -61,7 +61,7 @@ The installer does **not** verify prerequisites (Arch Linux, x86_64, Btrfs root,
 - **detect-keyboard-layout, xcompose** — Input
 - **docker.sh, flatpak.sh** — Container/flatpak config
 - **mimetypes.sh** — Default apps (e.g. Brave as browser)
-- **localdb.sh, walker-elephant.sh, fast-shutdown.sh, input-group.sh**
+- **walker-elephant.sh, fast-shutdown.sh, input-group.sh** (plocate DB: run `r2-d2-update-locate` when needed)
 - **voxtype.sh** — Copy Voxtype config to `~/.config/voxtype/`
 - **kernel-modules-hook.sh, powerprofilesctl-rules.sh, wifi-powersave-rules.sh**
 - **hardware/** — network, wireless regdom, Bluetooth, printer, USB autosuspend, power button, Vulkan (AMD), Synaptics touchpad
