@@ -14,7 +14,7 @@ show_log_tail() {
 
     tail -n $log_lines "$OMARCHY_INSTALL_LOG_FILE" | while IFS= read -r line; do
       if ((${#line} > max_line_width)); then
-        local truncated_line="${line:0:$max_line_width}..."
+        local truncated_line="${line:0:max_line_width}..."
       else
         local truncated_line="$line"
       fi
@@ -36,7 +36,7 @@ show_failed_script_or_command() {
     local max_cmd_width=$((LOGO_WIDTH - 4))
 
     if ((${#cmd} > max_cmd_width)); then
-      cmd="${cmd:0:$max_cmd_width}..."
+      cmd="${cmd:0:max_cmd_width}..."
     fi
 
     gum style "$cmd"
@@ -121,7 +121,7 @@ exit_handler() {
   local exit_code=$?
 
   # Only run if we're exiting with an error and haven't already handled it
-  if (( exit_code != 0 )) && [[ $ERROR_HANDLING != "true" ]]; then
+  if ((exit_code != 0)) && [[ $ERROR_HANDLING != "true" ]]; then
     catch_errors
   else
     stop_log_output

@@ -25,13 +25,13 @@ current_brightness="$(brightnessctl -d "$device" get)"
 
 # Calculate step as one unit (keyboards typically have discrete levels like 0-3).
 if [[ $direction == "cycle" ]]; then
-  new_brightness=$(( (current_brightness + 1) % (max_brightness + 1) ))
+  new_brightness=$(((current_brightness + 1) % (max_brightness + 1)))
 elif [[ $direction == "up" ]]; then
   new_brightness=$((current_brightness + 1))
-  (( new_brightness > max_brightness )) && new_brightness=$max_brightness
+  ((new_brightness > max_brightness)) && new_brightness=$max_brightness
 else
   new_brightness=$((current_brightness - 1))
-  (( new_brightness < 0 )) && new_brightness=0
+  ((new_brightness < 0)) && new_brightness=0
 fi
 
 # Set the new brightness.

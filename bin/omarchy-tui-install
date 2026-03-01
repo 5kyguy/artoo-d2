@@ -2,7 +2,7 @@
 
 set -e
 
-if (( $# != 4 )); then
+if (($# != 4)); then
   echo -e "\e[32mLet's create a TUI shortcut you can start with the app launcher.\n\e[0m"
   APP_NAME=$(gum input --prompt "Name> " --placeholder "My TUI")
   APP_EXEC=$(gum input --prompt "Launch Command> " --placeholder "lazydocker or bash -c 'dust; read -n 1 -s'")
@@ -54,6 +54,6 @@ EOF
 
 chmod +x "$DESKTOP_FILE"
 
-if (( $# != 4 )); then
+if (($# != 4)); then
   echo -e "You can now find $APP_NAME using the app launcher (SUPER + SPACE)\n"
 fi

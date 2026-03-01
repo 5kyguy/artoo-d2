@@ -3,7 +3,7 @@
 set -e
 
 # Ensure screensaver/sleep doesn't set in during updates
-hyprctl dispatch tagwindow +noidle &> /dev/null || true
+hyprctl dispatch tagwindow +noidle &>/dev/null || true
 
 # Capture update logs
 exec > >(tee "/tmp/omarchy-update.log") 2>&1
@@ -23,4 +23,4 @@ omarchy-update-analyze-logs
 omarchy-update-restart
 
 # Re-enable screensaver/sleep after updates
-hyprctl dispatch tagwindow -- -noidle &> /dev/null || true
+hyprctl dispatch tagwindow -- -noidle &>/dev/null || true

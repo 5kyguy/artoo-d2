@@ -81,7 +81,7 @@ last-boot)
   echo "Uploading previous boot logs..."
   ;;
 
-installed|system-info)
+installed | system-info)
   # System info plus all installed packages
   cat "$SYSTEM_INFO" >"$TEMP_LOG"
   {

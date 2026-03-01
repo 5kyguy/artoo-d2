@@ -29,7 +29,7 @@ else
     exit 1
   fi
   count=$(count_monitors)
-  if (( count < 2 )); then
+  if ((count < 2)); then
     notify-send "Built-in display" "Connect an external monitor first. Disabling the only display would freeze the session."
     exit 1
   fi

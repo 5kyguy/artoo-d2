@@ -19,11 +19,11 @@ STOP_RECORDING="false"
 
 for arg in "$@"; do
   case "$arg" in
-    --with-desktop-audio) DESKTOP_AUDIO="true" ;;
-    --with-microphone-audio) MICROPHONE_AUDIO="true" ;;
-    --with-webcam) WEBCAM="true" ;;
-    --webcam-device=*) WEBCAM_DEVICE="${arg#*=}" ;;
-    --stop-recording) STOP_RECORDING="true"
+  --with-desktop-audio) DESKTOP_AUDIO="true" ;;
+  --with-microphone-audio) MICROPHONE_AUDIO="true" ;;
+  --with-webcam) WEBCAM="true" ;;
+  --webcam-device=*) WEBCAM_DEVICE="${arg#*=}" ;;
+  --stop-recording) STOP_RECORDING="true" ;;
   esac
 done
 
@@ -103,11 +103,11 @@ trim_first_frame() {
 }
 
 stop_screenrecording() {
-  pkill -SIGINT -f "^gpu-screen-recorder"  # SIGINT required to save video properly
+  pkill -SIGINT -f "^gpu-screen-recorder" # SIGINT required to save video properly
 
   # Wait a maximum of 5 seconds to finish before hard killing
   local count=0
-  while pgrep -f "^gpu-screen-recorder" >/dev/null && (( count < 50 )); do
+  while pgrep -f "^gpu-screen-recorder" >/dev/null && ((count < 50)); do
     sleep 0.1
     count=$((count + 1))
   done

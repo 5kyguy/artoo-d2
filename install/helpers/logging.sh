@@ -24,8 +24,8 @@ start_log_output() {
         line="${current_lines[i]:-}"
 
         # Truncate if needed
-        if (( ${#line} > max_line_width )); then
-          line="${line:0:$max_line_width}..."
+        if ((${#line} > max_line_width)); then
+          line="${line:0:max_line_width}..."
         fi
 
         # Add clear line escape and formatted output for each line
@@ -125,7 +125,7 @@ run_logged() {
 
   local exit_code=$?
 
-  if (( exit_code == 0 )); then
+  if ((exit_code == 0)); then
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] Completed: $script" >>"$OMARCHY_INSTALL_LOG_FILE"
     unset CURRENT_SCRIPT
   else
