@@ -4,5 +4,5 @@
 mkdir -p ~/.config
 cp -R ~/.local/share/omarchy/config/* ~/.config/
 
-# Use default bashrc from Omarchy
-cp ~/.local/share/omarchy/default/bashrc ~/.bashrc
+# Use bashrc from config
+cp ~/.config/bashrc ~/.bashrc

@@ -1,5 +1,4 @@
 #!/bin/bash
 
-# Voxtype dictation config (packages are in base)
+# Voxtype dictation config (packages are in base; config is in config/voxtype, copied with config)
 mkdir -p ~/.config/voxtype
-cp "$OMARCHY_PATH/default/voxtype/config.toml" ~/.config/voxtype/

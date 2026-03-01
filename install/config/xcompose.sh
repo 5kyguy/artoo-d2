@@ -5,7 +5,7 @@ tee ~/.XCompose >/dev/null <<EOF
 # Run omarchy-restart-xcompose to apply changes
 
 # Include fast emoji access
-include "%H/.local/share/omarchy/default/xcompose"
+include "%H/.config/xcompose"
 
 # Identification
 <Multi_key> <space> <n> : "5kyguy"

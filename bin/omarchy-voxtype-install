@@ -8,7 +8,9 @@ if gum confirm "Install Voxtype + AI model (~150MB) to enable dictation?"; then
 
   # Setup voxtype
   mkdir -p ~/.config/voxtype
-  cp $OMARCHY_PATH/default/voxtype/config.toml ~/.config/voxtype/
+  if [[ -f "${OMARCHY_PATH:-$HOME/.local/share/omarchy}/config/voxtype/config.toml" ]]; then
+    cp "${OMARCHY_PATH:-$HOME/.local/share/omarchy}/config/voxtype/config.toml" ~/.config/voxtype/
+  fi
 
   voxtype setup --download --no-post-install
   voxtype setup systemd
