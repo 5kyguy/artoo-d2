@@ -9,5 +9,5 @@ if [[ ! -v BASH_COMPLETION_VERSINFO && -f /usr/share/bash-completion/bash_comple
   source /usr/share/bash-completion/bash_completion
 fi
 
-# Ensure command hashing is off for mise
+# Ensure command hashing is off for version managers (e.g. nvm)
 set +h

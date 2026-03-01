@@ -26,8 +26,9 @@ else
   echo_in_style "Finished installing"
 fi
 
-if sudo test -f /etc/sudoers.d/99-omarchy-installer; then
-  sudo rm -f /etc/sudoers.d/99-omarchy-installer &>/dev/null
+# Remove passwordless-reboot sudoers file created by allow-reboot.sh
+if sudo test -f /etc/sudoers.d/99-omarchy-installer-reboot; then
+  sudo rm -f /etc/sudoers.d/99-omarchy-installer-reboot &>/dev/null
 fi
 
 # Exit gracefully if user chooses not to reboot

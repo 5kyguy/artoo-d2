@@ -1,6 +1,7 @@
-if command -v mise &> /dev/null; then
-  eval "$(mise activate bash)"
+if [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]]; then
+  source "${NVM_DIR:-$HOME/.nvm}/nvm.sh"
 fi
+[[ -d /usr/local/go/bin ]] && export PATH=$PATH:/usr/local/go/bin
 
 if command -v starship &> /dev/null; then
   # clear stale readline state before rendering prompt (prevents artifacts in prompt after abnormal exits like SIGQUIT)

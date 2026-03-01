@@ -10,51 +10,48 @@ fi
 
 case "$1" in
 node)
-  echo -e "Removing Node.js...\n"
-  mise uninstall node --all
-  mise rm -g node
+  echo -e "Removing Node.js (nvm)...\n"
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  if [[ -s $NVM_DIR/nvm.sh ]]; then
+    source "$NVM_DIR/nvm.sh"
+    def=$(nvm version default 2>/dev/null)
+    [[ -n $def ]] && nvm uninstall "$def" 2>/dev/null || true
+    nvm alias default '' 2>/dev/null || true
+  fi
   ;;
 bun)
   echo -e "Removing Bun...\n"
-  mise uninstall bun --all
-  mise rm -g bun
+  omarchy-pkg-drop bun
   ;;
 deno)
   echo -e "Removing Deno...\n"
-  mise uninstall deno --all
-  mise rm -g deno
+  omarchy-pkg-drop deno
   ;;
 go)
-  echo -e "Removing Go...\n"
-  mise uninstall go --all
-  mise rm -g go
+  echo -e "Removing Go (/usr/local/go)...\n"
+  sudo rm -rf /usr/local/go
+  sudo rm -f /etc/profile.d/go.sh
   ;;
 python)
-  echo -e "Removing Python...\n"
-  mise uninstall python --all
-  mise rm -g python
+  echo -e "Removing Python (packages) and uv...\n"
+  omarchy-pkg-drop python
   rm -rf ~/.local/bin/uv ~/.local/bin/uvx ~/.cargo/bin/uv 2>/dev/null || true
   ;;
 elixir)
   echo -e "Removing Elixir/Erlang...\n"
-  mise uninstall elixir --all
-  mise uninstall erlang --all
-  mise rm -g elixir
-  mise rm -g erlang
+  omarchy-pkg-drop elixir erlang
   ;;
 zig)
   echo -e "Removing Zig...\n"
-  mise uninstall zig --all
-  mise uninstall zls --all
-  mise rm -g zig
-  mise rm -g zls
+  omarchy-pkg-drop zls-git 2>/dev/null || true
+  omarchy-pkg-drop zig
   ;;
 rust)
   echo -e "Removing Rust...\n"
   rustup self uninstall -y 2>/dev/null || true
   ;;
 *)
-  echo "Unknown environment: $1"
+  echo "Unknown environment: $1" >&2
   exit 1
   ;;
 esac

@@ -90,7 +90,6 @@ luarocks
 mako
 man-db
 mariadb-libs
-mise
 nano
 nautilus
 nautilus-python
@@ -150,6 +149,7 @@ waybar
 webp-pixbuf-loader
 wget
 whois
+wtype
 wireless-regdb
 wiremix
 wireplumber

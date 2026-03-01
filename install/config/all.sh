@@ -10,8 +10,6 @@ run_logged $OMARCHY_INSTALL/config/ssh-flakiness.sh
 run_logged $OMARCHY_INSTALL/config/increase-file-watchers.sh
 run_logged $OMARCHY_INSTALL/config/detect-keyboard-layout.sh
 run_logged $OMARCHY_INSTALL/config/xcompose.sh
-run_logged $OMARCHY_INSTALL/config/mise-work.sh
-run_logged $OMARCHY_INSTALL/config/fix-powerprofilesctl-shebang.sh
 run_logged $OMARCHY_INSTALL/config/docker.sh
 run_logged $OMARCHY_INSTALL/config/flatpak.sh
 run_logged $OMARCHY_INSTALL/config/mimetypes.sh
@@ -19,7 +17,7 @@ run_logged $OMARCHY_INSTALL/config/localdb.sh
 run_logged $OMARCHY_INSTALL/config/walker-elephant.sh
 run_logged $OMARCHY_INSTALL/config/fast-shutdown.sh
 run_logged $OMARCHY_INSTALL/config/input-group.sh
-run_logged $OMARCHY_INSTALL/config/omarchy-ai-skill.sh
+run_logged $OMARCHY_INSTALL/config/voxtype.sh
 run_logged $OMARCHY_INSTALL/config/kernel-modules-hook.sh
 run_logged $OMARCHY_INSTALL/config/powerprofilesctl-rules.sh
 run_logged $OMARCHY_INSTALL/config/wifi-powersave-rules.sh

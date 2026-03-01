@@ -8,8 +8,16 @@ if [[ -z $1 ]]; then
 fi
 
 install_node() {
-  echo -e "Installing Node.js...\n"
-  mise use --global node
+  echo -e "Installing Node.js via nvm...\n"
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  if [[ ! -d $NVM_DIR ]]; then
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+  fi
+  if [[ -s $NVM_DIR/nvm.sh ]]; then
+    source "$NVM_DIR/nvm.sh"
+    nvm install --lts
+    nvm alias default 'lts/*'
+  fi
 }
 
 case "$1" in
@@ -18,27 +26,30 @@ node)
   ;;
 bun)
   echo -e "Installing Bun...\n"
-  mise use -g bun@latest
+  omarchy-pkg-add bun
   ;;
 deno)
   echo -e "Installing Deno...\n"
-  mise use -g deno@latest
+  omarchy-pkg-add deno
   ;;
 go)
-  echo -e "Installing Go...\n"
-  mise use --global go@latest
+  echo -e "Installing Go (official tarball to /usr/local)...\n"
+  GO_VERSION=1.26.0
+  GO_TAR="go${GO_VERSION}.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  curl -sL "https://go.dev/dl/${GO_TAR}" | sudo tar -C /usr/local -xz
+  echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/go.sh >/dev/null
   ;;
 python)
   echo -e "Installing Python...\n"
-  mise use --global python@latest
+  omarchy-pkg-add python
   echo -e "\nInstalling uv...\n"
   curl -fsSL https://astral.sh/uv/install.sh | sh
   ;;
 elixir)
   echo -e "Installing Elixir...\n"
-  mise use --global erlang@latest
-  mise use --global elixir@latest
-  mise x elixir -- mix local.hex --force
+  omarchy-pkg-add erlang elixir
+  mix local.hex --force 2>/dev/null || true
   ;;
 rust)
   echo -e "Installing Rust...\n"
@@ -46,7 +57,11 @@ rust)
   ;;
 zig)
   echo -e "Installing Zig...\n"
-  mise use --global zig@latest
-  mise use -g zls@latest
+  omarchy-pkg-add zig
+  omarchy-pkg-aur-add zls-git 2>/dev/null || true
+  ;;
+*)
+  echo "Unknown environment: $1" >&2
+  exit 1
   ;;
 esac

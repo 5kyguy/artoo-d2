@@ -7,5 +7,6 @@ export PATH=$OMARCHY_PATH/bin:$PATH
 # Set default terminal and editor
 source ~/.config/uwsm/default
 
-# Activate mise if present on the system
-omarchy-cmd-present mise && eval "$(mise activate bash)"
+# Activate nvm if present
+[[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]] && source "${NVM_DIR:-$HOME/.nvm}/nvm.sh"
+[[ -d /usr/local/go/bin ]] && export PATH=$PATH:/usr/local/go/bin
