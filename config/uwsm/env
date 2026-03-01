@@ -1,8 +1,8 @@
 # Changes require a restart to take effect.
 
-# Ensure Omarchy bins are in the path
-export OMARCHY_PATH=$HOME/.local/share/omarchy
-export PATH=$OMARCHY_PATH/bin:$PATH
+# Ensure R2-D2 bins are in the path
+export R2D2_PATH=$HOME/.local/share/r2-d2
+export PATH=$R2D2_PATH/bin:$PATH
 
 # Set default terminal and editor
 source ~/.config/uwsm/default

@@ -8,10 +8,10 @@ sudo ln -snf /usr/share/icons/Adwaita/symbolic/actions/go-next-symbolic.svg /usr
 # No theme-set or subsequent scripted theme changes.
 
 # Set default background once (first image in backgrounds/)
-if [[ -n ${OMARCHY_PATH:-} ]] && [[ -d "$OMARCHY_PATH/backgrounds" ]]; then
-  first_bg=$(find "$OMARCHY_PATH/backgrounds" -maxdepth 1 -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' \) 2>/dev/null | head -1)
+if [[ -n ${R2D2_PATH:-} ]] && [[ -d "$R2D2_PATH/backgrounds" ]]; then
+  first_bg=$(find "$R2D2_PATH/backgrounds" -maxdepth 1 -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' \) 2>/dev/null | head -1)
   if [[ -n $first_bg ]]; then
-    ln -nsf "$first_bg" "$OMARCHY_PATH/background"
+    ln -nsf "$first_bg" "$R2D2_PATH/background"
   fi
 fi
 

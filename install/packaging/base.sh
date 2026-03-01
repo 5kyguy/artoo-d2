@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Install all base packages (official repos first, then AUR)
-mapfile -t packages < <(grep -v '^#' "$OMARCHY_INSTALL/omarchy-base.packages" | grep -v '^$')
-omarchy-pkg-add "${packages[@]}"
+mapfile -t packages < <(grep -v '^#' "$R2D2_INSTALL/r2-d2-base.packages" | grep -v '^$')
+r2-d2-pkg-add "${packages[@]}"
 
-mapfile -t aur_packages < <(grep -v '^#' "$OMARCHY_INSTALL/omarchy-base.aur.packages" | grep -v '^$')
+mapfile -t aur_packages < <(grep -v '^#' "$R2D2_INSTALL/r2-d2-base.aur.packages" | grep -v '^$')
 if [[ ${#aur_packages[@]} -gt 0 ]]; then
-  omarchy-pkg-aur-add "${aur_packages[@]}"
+  r2-d2-pkg-aur-add "${aur_packages[@]}"
 fi
 
 # Voxtype dictation: download model and enable systemd (config is in config phase)

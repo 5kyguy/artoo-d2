@@ -21,7 +21,7 @@ Target = elephant*
 [Action]
 Description = Restarting Walker services after system update
 When = PostTransaction
-Exec = $OMARCHY_PATH/bin/omarchy-restart-walker
+Exec = $R2D2_PATH/bin/r2-d2-restart-walker
 EOF
 
 # Elephant menu configs are in ~/.config/elephant/menus/ (copied with config)

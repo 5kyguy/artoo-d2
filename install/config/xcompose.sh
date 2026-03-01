@@ -2,7 +2,7 @@
 
 # Set default XCompose that is triggered with CapsLock
 tee ~/.XCompose >/dev/null <<EOF
-# Run omarchy-restart-xcompose to apply changes
+# Run r2-d2-restart-xcompose to apply changes
 
 # Include fast emoji access
 include "%H/.config/xcompose"

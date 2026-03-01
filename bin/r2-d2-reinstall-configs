@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+# Overwrite all user configs with the R2-D2 defaults.
+
+if ((EUID == 0)); then
+  echo "Error: This script should not be run as root"
+  exit 1
+fi
+
+echo "Resetting all R2-D2 configs"
+cp -R ~/.local/share/r2-d2/config/* ~/.config/
+cp ~/.config/bashrc ~/.bashrc
+echo '[[ -f ~/.bashrc ]] && . ~/.bashrc' | tee ~/.bash_profile >/dev/null
+
+bash "$R2D2_PATH/install/config/theme.sh"
+
+r2-d2-refresh-limine
+r2-d2-refresh-plymouth
+r2-d2-nvim-setup

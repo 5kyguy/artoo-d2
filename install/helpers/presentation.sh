@@ -2,7 +2,7 @@
 
 # Ensure we have gum available
 if ! command -v gum &>/dev/null; then
-  omarchy-pkg-add gum
+  r2-d2-pkg-add gum
 fi
 
 # Get terminal size from /dev/tty (works in all scenarios: direct, sourced, or piped)
@@ -25,7 +25,7 @@ else
   export TERM_HEIGHT=24
 fi
 
-export LOGO_PATH="$OMARCHY_PATH/logo.txt"
+export LOGO_PATH="$R2D2_PATH/logo.txt"
 export LOGO_WIDTH
 LOGO_WIDTH=$(awk '{ if (length > max) max = length } END { print max+0 }' "$LOGO_PATH" 2>/dev/null || echo 0)
 export LOGO_HEIGHT

@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+# Reinstall all default R2-D2 packages from the stable channel and downgrade any packages that are too new.
+
+# Set the package repository to the stable mirrors
+r2-d2-refresh-pacman
+
+# Downgrade any packages to the stable setup
+sudo pacman -Suu --noconfirm
+
+# Ensure all packages are installed
+mapfile -t packages < <(grep -v '^#' "$R2D2_PATH/install/r2-d2-base.packages" | grep -v '^$')
+sudo pacman -Syu --noconfirm --needed "${packages[@]}"

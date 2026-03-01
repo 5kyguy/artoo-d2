@@ -3,16 +3,16 @@
 # Exit immediately if a command exits with a non-zero status
 set -eEo pipefail
 
-# Define Omarchy locations
-export OMARCHY_PATH="$HOME/.local/share/omarchy"
-export OMARCHY_INSTALL="$OMARCHY_PATH/install"
-export OMARCHY_INSTALL_LOG_FILE="/var/log/omarchy-install.log"
-export PATH="$OMARCHY_PATH/bin:$PATH"
+# Define R2-D2 locations
+export R2D2_PATH="$HOME/.local/share/r2-d2"
+export R2D2_INSTALL="$R2D2_PATH/install"
+export R2D2_INSTALL_LOG_FILE="/var/log/r2-d2-install.log"
+export PATH="$R2D2_PATH/bin:$PATH"
 
 # Install
-source "$OMARCHY_INSTALL/helpers/all.sh"
-source "$OMARCHY_INSTALL/preflight/all.sh"
-source "$OMARCHY_INSTALL/packaging/all.sh"
-source "$OMARCHY_INSTALL/config/all.sh"
-source "$OMARCHY_INSTALL/login/all.sh"
-source "$OMARCHY_INSTALL/post-install/all.sh"
+source "$R2D2_INSTALL/helpers/all.sh"
+source "$R2D2_INSTALL/preflight/all.sh"
+source "$R2D2_INSTALL/packaging/all.sh"
+source "$R2D2_INSTALL/config/all.sh"
+source "$R2D2_INSTALL/login/all.sh"
+source "$R2D2_INSTALL/post-install/all.sh"

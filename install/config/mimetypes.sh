@@ -1,6 +1,6 @@
 #!/bin/bash
 
-omarchy-refresh-applications
+r2-d2-refresh-applications
 update-desktop-database ~/.local/share/applications
 
 # Open directories in file manager

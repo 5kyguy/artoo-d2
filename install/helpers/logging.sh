@@ -18,7 +18,7 @@ start_log_output() {
 
     while true; do
       # Read the last N lines into an array
-      mapfile -t current_lines < <(tail -n $log_lines "$OMARCHY_INSTALL_LOG_FILE" 2>/dev/null)
+      mapfile -t current_lines < <(tail -n $log_lines "$R2D2_INSTALL_LOG_FILE" 2>/dev/null)
 
       # Build complete output buffer with escape sequences
       output=""
@@ -55,13 +55,13 @@ stop_log_output() {
 }
 
 start_install_log() {
-  sudo touch "$OMARCHY_INSTALL_LOG_FILE"
-  sudo chmod 666 "$OMARCHY_INSTALL_LOG_FILE"
+  sudo touch "$R2D2_INSTALL_LOG_FILE"
+  sudo chmod 666 "$R2D2_INSTALL_LOG_FILE"
 
-  export OMARCHY_START_TIME
-  OMARCHY_START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+  export R2D2_START_TIME
+  R2D2_START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 
-  echo "=== Omarchy Installation Started: $OMARCHY_START_TIME ===" >>"$OMARCHY_INSTALL_LOG_FILE"
+  echo "=== R2-D2 Installation Started: $R2D2_START_TIME ===" >>"$R2D2_INSTALL_LOG_FILE"
   start_log_output
 }
 
@@ -69,11 +69,11 @@ stop_install_log() {
   stop_log_output
   show_cursor
 
-  if [[ -n ${OMARCHY_INSTALL_LOG_FILE:-} ]]; then
-    OMARCHY_END_TIME=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "=== Omarchy Installation Completed: $OMARCHY_END_TIME ===" >>"$OMARCHY_INSTALL_LOG_FILE"
-    echo "" >>"$OMARCHY_INSTALL_LOG_FILE"
-    echo "=== Installation Time Summary ===" >>"$OMARCHY_INSTALL_LOG_FILE"
+  if [[ -n ${R2D2_INSTALL_LOG_FILE:-} ]]; then
+    R2D2_END_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "=== R2-D2 Installation Completed: $R2D2_END_TIME ===" >>"$R2D2_INSTALL_LOG_FILE"
+    echo "" >>"$R2D2_INSTALL_LOG_FILE"
+    echo "=== Installation Time Summary ===" >>"$R2D2_INSTALL_LOG_FILE"
 
     if [[ -f "/var/log/archinstall/install.log" ]]; then
       ARCHINSTALL_START=$(grep -m1 '^\[' /var/log/archinstall/install.log 2>/dev/null | sed 's/^\[\([^]]*\)\].*/\1/' || true)
@@ -87,32 +87,32 @@ stop_install_log() {
         ARCH_MINS=$((ARCH_DURATION / 60))
         ARCH_SECS=$((ARCH_DURATION % 60))
 
-        echo "Archinstall: ${ARCH_MINS}m ${ARCH_SECS}s" >>"$OMARCHY_INSTALL_LOG_FILE"
+        echo "Archinstall: ${ARCH_MINS}m ${ARCH_SECS}s" >>"$R2D2_INSTALL_LOG_FILE"
       fi
     fi
 
-    if [[ -n $OMARCHY_START_TIME ]]; then
-      OMARCHY_START_EPOCH=$(date -d "$OMARCHY_START_TIME" +%s)
-      OMARCHY_END_EPOCH=$(date -d "$OMARCHY_END_TIME" +%s)
-      OMARCHY_DURATION=$((OMARCHY_END_EPOCH - OMARCHY_START_EPOCH))
+    if [[ -n $R2D2_START_TIME ]]; then
+      R2D2_START_EPOCH=$(date -d "$R2D2_START_TIME" +%s)
+      R2D2_END_EPOCH=$(date -d "$R2D2_END_TIME" +%s)
+      R2D2_DURATION=$((R2D2_END_EPOCH - R2D2_START_EPOCH))
 
-      OMARCHY_MINS=$((OMARCHY_DURATION / 60))
-      OMARCHY_SECS=$((OMARCHY_DURATION % 60))
+      R2D2_MINS=$((R2D2_DURATION / 60))
+      R2D2_SECS=$((R2D2_DURATION % 60))
 
-      echo "Omarchy:     ${OMARCHY_MINS}m ${OMARCHY_SECS}s" >>"$OMARCHY_INSTALL_LOG_FILE"
+      echo "R2-D2:     ${R2D2_MINS}m ${R2D2_SECS}s" >>"$R2D2_INSTALL_LOG_FILE"
 
       if [[ -n ${ARCH_DURATION:-} ]]; then
-        TOTAL_DURATION=$((ARCH_DURATION + OMARCHY_DURATION))
+        TOTAL_DURATION=$((ARCH_DURATION + R2D2_DURATION))
       else
-        TOTAL_DURATION=$OMARCHY_DURATION
+        TOTAL_DURATION=$R2D2_DURATION
       fi
       TOTAL_MINS=$((TOTAL_DURATION / 60))
       TOTAL_SECS=$((TOTAL_DURATION % 60))
-      echo "Total:       ${TOTAL_MINS}m ${TOTAL_SECS}s" >>"$OMARCHY_INSTALL_LOG_FILE"
+      echo "Total:       ${TOTAL_MINS}m ${TOTAL_SECS}s" >>"$R2D2_INSTALL_LOG_FILE"
     fi
-    echo "=================================" >>"$OMARCHY_INSTALL_LOG_FILE"
+    echo "=================================" >>"$R2D2_INSTALL_LOG_FILE"
 
-    echo "Rebooting system..." >>"$OMARCHY_INSTALL_LOG_FILE"
+    echo "Rebooting system..." >>"$R2D2_INSTALL_LOG_FILE"
   fi
 }
 
@@ -121,18 +121,18 @@ run_logged() {
 
   export CURRENT_SCRIPT="$script"
 
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$OMARCHY_INSTALL_LOG_FILE"
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $script" >>"$R2D2_INSTALL_LOG_FILE"
 
   # Use bash -c to create a clean subshell
-  bash -c "source '$script'" </dev/null >>"$OMARCHY_INSTALL_LOG_FILE" 2>&1
+  bash -c "source '$script'" </dev/null >>"$R2D2_INSTALL_LOG_FILE" 2>&1
 
   local exit_code=$?
 
   if ((exit_code == 0)); then
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Completed: $script" >>"$OMARCHY_INSTALL_LOG_FILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Completed: $script" >>"$R2D2_INSTALL_LOG_FILE"
     unset CURRENT_SCRIPT
   else
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Failed: $script (exit code: $exit_code)" >>"$OMARCHY_INSTALL_LOG_FILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Failed: $script (exit code: $exit_code)" >>"$R2D2_INSTALL_LOG_FILE"
   fi
 
   return $exit_code

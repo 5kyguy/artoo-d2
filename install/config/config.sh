@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Copy over Omarchy configs
+# Copy over R2-D2 configs
 mkdir -p ~/.config
-cp -R ~/.local/share/omarchy/config/* ~/.config/
+cp -R ~/.local/share/r2-d2/config/* ~/.config/
 
 # Use bashrc from config
 cp ~/.config/bashrc ~/.bashrc

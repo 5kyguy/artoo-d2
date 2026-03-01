@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Install omarchy SDDM theme
-omarchy-refresh-sddm
+# Install r2-d2 SDDM theme
+r2-d2-refresh-sddm
 
 # Setup SDDM login service
 sudo mkdir -p /etc/sddm.conf.d
@@ -12,7 +12,7 @@ User=$USER
 Session=hyprland-uwsm
 
 [Theme]
-Current=omarchy
+Current=r2-d2
 EOF
 fi
 

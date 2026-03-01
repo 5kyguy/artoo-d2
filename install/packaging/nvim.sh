@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Includes lazyvim and the themes
-omarchy-nvim-setup
+r2-d2-nvim-setup

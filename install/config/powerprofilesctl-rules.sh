@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if omarchy-battery-present; then
-  mapfile -t profiles < <(omarchy-powerprofiles-list)
+if r2-d2-battery-present; then
+  mapfile -t profiles < <(r2-d2-powerprofiles-list)
 
   if ((${#profiles[@]} > 1)); then
 

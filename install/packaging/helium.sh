@@ -6,7 +6,7 @@
 set -e
 
 HELIUM_URL="https://github.com/imputnet/helium-linux/releases/download/0.9.4.1/helium-0.9.4.1-x86_64.AppImage"
-HELIUM_DIR="$HOME/.local/share/omarchy/helium"
+HELIUM_DIR="$HOME/.local/share/r2-d2/helium"
 HELIUM_APPIMAGE="$HELIUM_DIR/helium.AppImage"
 BIN_DIR="$HOME/.local/bin"
 APPS_DIR="$HOME/.local/share/applications"
@@ -27,7 +27,7 @@ if [[ $need_download == true ]]; then
   chmod +x "$HELIUM_APPIMAGE"
 fi
 
-# Symlink into PATH so `helium` command works (omarchy-webapp-install checks command -v helium)
+# Symlink into PATH so `helium` command works (r2-d2-webapp-install checks command -v helium)
 ln -sf "$HELIUM_APPIMAGE" "$BIN_DIR/helium"
 
 # Extract icon from AppImage if not already present
