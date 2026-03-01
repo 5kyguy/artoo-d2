@@ -9,7 +9,7 @@
 
 # Command Naming
 
-All commands start with `omarchy-`. Prefixes indicate purpose:
+All commands start with `r2-d2-`. Prefixes indicate purpose:
 
 - `cmd-` - check if commands exist, misc utility commands
 - `pkg-` - package management helpers
@@ -27,14 +27,14 @@ All commands start with `omarchy-`. Prefixes indicate purpose:
 
 Use these instead of raw shell commands:
 
-- `omarchy-cmd-missing` / `omarchy-cmd-present` - check for commands
-- `omarchy-pkg-missing` / `omarchy-pkg-present` - check for packages
-- `omarchy-pkg-add` - install packages (handles both pacman and AUR)
-- `omarchy-hw-*` - hardware detection commands (return exit codes for use in conditionals)
+- `r2-d2-cmd-missing` / `r2-d2-cmd-present` - check for commands
+- `r2-d2-pkg-missing` / `r2-d2-pkg-present` - check for packages
+- `r2-d2-pkg-add` - install packages (handles both pacman and AUR)
+- `r2-d2-hw-*` - hardware detection commands (return exit codes for use in conditionals)
 
 # Config Structure
 
-- `config/` - user-editable config; copied to `~/.config/` on install. Single place to edit (see `.cursor/rules/omarchy-single-user-and-boot.mdc`).
+- `config/` - user-editable config; copied to `~/.config/` on install. Single place to edit (see `.cursor/rules/r2-d2-single-user-and-boot.mdc`).
 - `default/` (limine, pacman, gpg, systemd, plymouth, sddm, etc.) - system-install assets only, not user config
 
 # Refresh Pattern
@@ -42,29 +42,29 @@ Use these instead of raw shell commands:
 To copy a default config to user config with automatic backup:
 
 ```bash
-omarchy-refresh-config hypr/hyprlock.conf
+r2-d2-refresh-config hypr/hyprlock.conf
 ```
 
-This copies `~/.local/share/omarchy/config/hypr/hyprlock.conf` to `~/.config/hypr/hyprlock.conf`.
+This copies `~/.local/share/r2-d2/config/hypr/hyprlock.conf` to `~/.config/hypr/hyprlock.conf`.
 
 # Migrations
 
-Migrations run at the end of install (`omarchy-migrate`) and during `omarchy-update-perform`. They must be **idempotent** or no-op when preconditions are missing (e.g. first install vs re-run after pull): e.g. "move file A → B" should check for A; "create dir" is idempotent.
+Migrations run at the end of install (`r2-d2-migrate`) and during `r2-d2-update-perform`. They must be **idempotent** or no-op when preconditions are missing (e.g. first install vs re-run after pull): e.g. "move file A → B" should check for A; "create dir" is idempotent.
 
-To create a new migration, run `omarchy-dev-add-migration --no-edit`. This creates a migration file named after the unix timestamp of the last commit.
+To create a new migration, run `r2-d2-dev-add-migration --no-edit`. This creates a migration file named after the unix timestamp of the last commit.
 
 Migration format:
 
 - No shebang line
 - Start with an `echo` describing what the migration does
-- Use `$OMARCHY_PATH` to reference the omarchy directory
+- Use `$R2D2_PATH` to reference the r2-d2 directory
 
 Example:
 
 ```bash
 echo "Disable fingerprint in hyprlock if fingerprint auth is not configured"
 
-if omarchy-cmd-missing fprintd-list || ! fprintd-list "$USER" 2>/dev/null | grep -q "finger"; then
+if r2-d2-cmd-missing fprintd-list || ! fprintd-list "$USER" 2>/dev/null | grep -q "finger"; then
   sed -i 's/fingerprint:enabled = .*/fingerprint:enabled = false/' ~/.config/hypr/hyprlock.conf
 fi
 ```
