@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Sets the specified image as the default background (single-theme setup).
-# Used by the menu background selector; cycles through default/backgrounds.
+# Used by the menu background selector; cycles through backgrounds/.
 
 if [[ -z $1 ]]; then
   echo "Usage: omarchy-theme-bg-set <path-to-image>" >&2
@@ -9,11 +9,10 @@ if [[ -z $1 ]]; then
 fi
 
 BACKGROUND="$1"
-OMARCHY_DEFAULT="${OMARCHY_PATH:-$HOME/.local/share/omarchy/default}"
-DEFAULT_BACKGROUND="$OMARCHY_DEFAULT/background"
+OMARCHY_ROOT="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+DEFAULT_BACKGROUND="$OMARCHY_ROOT/background"
 
 # Create symlink to the new background
-mkdir -p "$OMARCHY_DEFAULT"
 ln -nsf "$BACKGROUND" "$DEFAULT_BACKGROUND"
 
 # Kill existing swaybg and start new one
