@@ -11,20 +11,31 @@ italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Italic" }
 size = 9
 
 [window]
-padding = { x = 18, y = 14 }
+padding.x = 14
+padding.y = 14
 decorations = "None"
-opacity = 0.55
+opacity = 0.75
 
 [keyboard]
 bindings = [
-  { key = "Insert", mods = "Shift", action = "Paste" },
-  { key = "Insert", mods = "Control", action = "Copy" },
+{ key = "Insert", mods = "Shift", action = "Paste" },
+{ key = "Insert", mods = "Control", action = "Copy" },
 ]
 
 [colors]
-primary = { background = "#121212", foreground = "#d4d4d4", dim_foreground = "#8a8a8d" }
-cursor = { text = "#121212", cursor = "#A85511" }
-selection = { text = "CellForeground", background = "#A85511" }
+[colors.primary]
+background = "#121212"
+foreground = "#d4d4d4"
+dim_foreground = "#8a8a8d"
+
+[colors.cursor]
+text = "#121212"
+cursor = "#A85511"
+
+[colors.selection]
+text = "CellForeground"
+background = "#A85511"
+
 [colors.normal]
 black = "#333333"
 red = "#862020"

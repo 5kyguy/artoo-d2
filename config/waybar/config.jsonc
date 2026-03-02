@@ -8,15 +8,39 @@
   "margin-left": 0,
   "margin-right": 0,
 
-  "modules-left": ["custom/r2-d2", "hyprland/workspaces", "cpu", "memory", "temperature"],
-  "modules-center": ["clock"],
-  "modules-right": ["tray", "bluetooth", "network", "pulseaudio", "battery"],
+  "modules-left": [
+    "custom/r2-d2", 
+    "hyprland/workspaces", 
+    "cpu", 
+    "memory", 
+    "temperature"
+  ],
+  "modules-center": [
+    "clock", 
+    "custom/update", 
+    "custom/voxtype", 
+    "custom/screenrecording-indicator",
+    "custom/notification-silencing-indicator"
+  ],
+  "modules-right": [
+    "tray", 
+    "bluetooth", 
+    "network", 
+    "pulseaudio", 
+    "battery"
+  ],
 
+  "custom/r2-d2": {
+    "format": "<span font='r2-d2'>\ue900</span>",
+    "on-click": "r2-d2-menu",
+    "on-click-right": "xdg-terminal-exec",
+    "tooltip-format": "R2-D2 Menu\n\nSuper + Alt + Space"
+  },
   "hyprland/workspaces": {
     "on-click": "activate",
     "format": "{icon}",
     "format-icons": {
-      "default": "◯",
+      "default": "",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -26,7 +50,8 @@
       "7": "7",
       "8": "8",
       "9": "9",
-      "active": "●"
+      "10": "0",
+      "active": "󱓻"
     },
     "persistent-workspaces": {
       "1": [],
@@ -36,26 +61,59 @@
       "5": []
     }
   },
-
-  "custom/r2-d2": {
-    "format": "<span font='r2-d2'>\ue900</span>",
-    "on-click": "r2-d2-menu",
-    "tooltip-format": "R2-D2 Menu\n\nSuper + Alt + Space"
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛 {usage}%",
+    "on-click": "$TERMINAL -e btop"
+  },
+  "memory": {
+    "interval": 2,
+    "format": "  {percentage}%"
+  },
+  "temperature": {
+    "interval": 5,
+    "format": "{temperatureC}°C",
+    "tooltip-format": "CPU Temperature: {temperatureC}°C",
+    "critical-threshold": 80,
+    "on-click": "$TERMINAL -e btop"
   },
 
+  "clock": {
+    "format": "{:%A %H:%M}",
+    "tooltip": false,
+    "on-click-right": "r2-d2-launch-floating-terminal-with-presentation r2-d2-tz-select"
+  },
   "custom/update": {
-    "format": "",
+    "format": "",
     "exec": "r2-d2-update-available",
     "on-click": "r2-d2-launch-floating-terminal-with-presentation r2-d2-update",
     "tooltip-format": "R2-D2 update available",
     "signal": 7,
-    "interval": 3600
+    "interval": 21600
   },
-
+  "custom/voxtype": {
+    "exec": "omarchy-voxtype-status",
+    "return-type": "json",
+    "format": "{icon}",
+    "format-icons": {
+      "idle": "",
+      "recording": "󰍬",
+      "transcribing": "󰔟"
+    },
+    "tooltip": true,
+    "on-click-right": "omarchy-voxtype-config",
+    "on-click": "omarchy-voxtype-model"
+  },
   "custom/screenrecording-indicator": {
     "on-click": "r2-d2-cmd-screenrecord",
     "exec": "$HOME/.config/waybar/indicators/screen-recording.sh",
     "signal": 8,
+    "return-type": "json"
+  },
+  "custom/notification-silencing-indicator": {
+    "on-click": "omarchy-toggle-notification-silencing",
+    "exec": "$HOME/.config/waybar/indicators/notification-silencing.sh",
+    "signal": 10,
     "return-type": "json"
   },
 
@@ -68,7 +126,6 @@
       "(.*code) - (.*)": "󰨞 $1",
       "^.*btop( .*|$)": "󰧨 btop $1",
       "^.*cmatrix( .*|$)": "󰘨 matrix $1",
-      "(.*) - spotify": " $1",
       "(.*) - com.mitchellh.ghostty": "󰊠 $1",
       "(.*) - alacritty": "  $1",
       "(.*) - beepertexts": "󰻞  $1",
@@ -82,26 +139,13 @@
     "spacing": 12,
     "show-passive-items": true
   },
-
-  "memory": {
-    "interval": 2,
-    "format": "  {percentage}%"
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "",
+    "tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "blueberry"
   },
-
-  "cpu": {
-    "interval": 5,
-    "format": "󰍛 {usage}%",
-    "on-click": "$TERMINAL -e btop"
-  },
-
-  "temperature": {
-    "interval": 5,
-    "format": "{temperatureC}°C",
-    "tooltip-format": "CPU Temperature: {temperatureC}°C",
-    "critical-threshold": 80,
-    "on-click": "$TERMINAL -e btop"
-  },
-
   "network": {
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
     "format": "{icon}",
@@ -115,21 +159,6 @@
     "spacing": 1,
     "on-click": "r2-d2-launch-wifi"
   },
-
-  "backlight": {
-    "device": "amdgpu_bl0",
-    "format": "{icon} {percent}%",
-    "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"]
-  },
-
-  "bluetooth": {
-    "format": "",
-    "format-disabled": "󰂲",
-    "format-connected": "",
-    "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "blueberry"
-  },
-
   "pulseaudio": {
     "format": "{icon}   {volume}%",
     "on-click": "$TERMINAL --class=Wiremix -e wiremix",
@@ -141,13 +170,6 @@
       "default": ["", "", ""]
     }
   },
-
-  "clock": {
-    "format": "{:%A %H:%M}",
-    "tooltip": false,
-    "on-click-right": "r2-d2-launch-floating-terminal-with-presentation r2-d2-tz-select"
-  },
-
   "battery": {
     "format": "{capacity}% {icon}",
     "format-discharging": "{icon}",

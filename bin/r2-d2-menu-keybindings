@@ -206,8 +206,13 @@ prioritize_entries() {
     if (match(line, /notification/))  prio = 37
     if (match(line, /Toggle window transparency/))  prio = 38
     if (match(line, /Toggle workspace gaps/))  prio = 39
-    if (match(line, /Toggle nightlight/))  prio = 40
-    if (match(line, /Toggle locking/))  prio = 41
+    if (match(line, /Workspace layout/))  prio = 40
+    if (match(line, /Toggle nightlight/))  prio = 41
+    if (match(line, /Toggle locking/))  prio = 42
+    if (match(line, /Show key bindings/))  prio = 43
+    if (match(line, /Toggle monitor scaling/))  prio = 44
+    if (match(line, /Apply monitor layout/))  prio = 45
+    if (match(line, /Toggle single-window square/))  prio = 46
     if (match(line, /group/))  prio = 94
     if (match(line, /Scroll active workspace/))  prio = 95
     if (match(line, /Cycle to/))  prio = 96

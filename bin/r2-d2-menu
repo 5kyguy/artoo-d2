@@ -212,7 +212,7 @@ show_setup_system_menu() {
 }
 
 show_install_menu() {
-  case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n  Gaming") in
+  case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI") in
   *Package*) terminal r2-d2-pkg-install ;;
   *AUR*) terminal r2-d2-pkg-aur-install ;;
   *Web*) present_terminal r2-d2-webapp-install ;;
@@ -221,7 +221,6 @@ show_install_menu() {
   *Editor*) show_install_editor_menu ;;
   *Terminal*) show_install_terminal_menu ;;
   *AI*) show_install_ai_menu ;;
-  *Gaming*) show_install_gaming_menu ;;
   *) show_main_menu ;;
   esac
 }
@@ -252,15 +251,6 @@ show_install_ai_menu() {
   *Studio*) install "LM Studio" "lmstudio" ;;
   *Ollama*) install "Ollama" "ollama-rocm" ;;
   *Crush*) install "Crush" "crush-bin" ;;
-  *) show_install_menu ;;
-  esac
-}
-
-show_install_gaming_menu() {
-  case $(menu "Install" "  RetroArch [AUR]\n󰍳  Minecraft\n󰖺  Xbox Controller [AUR]") in
-  *RetroArch*) aur_install_and_launch "RetroArch" "retroarch retroarch-assets libretro libretro-fbneo" "com.libretro.RetroArch.desktop" ;;
-  *Minecraft*) install_and_launch "Minecraft" "minecraft-launcher" "minecraft-launcher" ;;
-  *Xbox*) present_terminal r2-d2-install-xbox-controllers ;;
   *) show_install_menu ;;
   esac
 }

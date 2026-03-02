@@ -23,7 +23,7 @@ selection-background = #A85511
 selection-foreground = #d4d4d4
 
 # Font
-font-family = "CaskaydiaMono Nerd Font Mono"
+font-family = "JetBrainsMono Nerd Font"
 font-style = Regular
 font-size = 9
 

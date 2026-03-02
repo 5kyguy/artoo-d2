@@ -46,7 +46,7 @@ The installer does **not** verify prerequisites (Arch Linux, x86_64, Btrfs root,
 - **helium.sh** — Install Helium AppImage (webapps)
 - **dev-runtimes.sh** — Go (official tarball to /usr/local) and Node.js (nvm)
 - **fonts.sh** — Copy R2-D2 font (r2-d2.ttf) to `~/.local/share/fonts`, run fc-cache
-- **nvim.sh** — Run r2-d2-nvim-setup (LazyVim)
+- **nvim.sh** — No-op; Neovim uses omarchy-nvim package + theme from config
 - **icons.sh** — Copy bundled icons to `~/.local/share/applications/icons`
 - **webapps.sh** — Create web app shortcuts (WhatsApp, YouTube, X, Discord) via Helium when available
 - **tuis.sh** — Add TUI shortcuts (Disk Usage, Docker)

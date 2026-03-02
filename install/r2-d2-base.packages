@@ -40,7 +40,6 @@ fzf
 git
 github-cli
 gnome-calculator
-gnome-disk-utility
 gnome-keyring
 gnome-themes-extra
 gpu-screen-recorder
@@ -51,7 +50,6 @@ gum
 gvfs-mtp
 gvfs-nfs
 gvfs-smb
-htop
 hypridle
 hyprland
 hyprland-guiutils
@@ -64,7 +62,6 @@ impala
 inetutils
 inxi
 iwd
-jdk-openjdk
 jq
 just
 kdenlive
@@ -93,16 +90,15 @@ mariadb-libs
 nano
 nautilus
 nautilus-python
-neovim
 net-tools
 noto-fonts
+noto-fonts-cjk
 noto-fonts-emoji
 nss-mdns
 obs-studio
 omarchy-keyring
+omarchy-nvim
 omarchy-walker
-r2-d2-nvim
-r2-d2-walker
 pamixer
 pinta
 pipewire
@@ -121,7 +117,6 @@ python-pip
 python-poetry-core
 python-terminaltexteffects
 qt5-wayland
-qt6-wayland
 ripgrep
 rust
 satty
@@ -139,6 +134,7 @@ tmux
 tree
 tree-sitter-cli
 ttf-cascadia-mono-nerd
+ttf-jetbrains-mono-nerd
 tzupdate
 ufw
 ufw-docker

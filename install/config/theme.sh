@@ -7,16 +7,8 @@ bash "${R2D2_PATH:-$HOME/.local/share/r2-d2}/install/first-run/gnome-theme.sh"
 sudo ln -snf /usr/share/icons/Adwaita/symbolic/actions/go-previous-symbolic.svg /usr/share/icons/Yaru/scalable/actions/go-previous-symbolic.svg
 sudo ln -snf /usr/share/icons/Adwaita/symbolic/actions/go-next-symbolic.svg /usr/share/icons/Yaru/scalable/actions/go-next-symbolic.svg
 
-# Single-theme setup: UI/themes/colors/fonts are applied once via config/ and default/.
-# No theme-set or subsequent scripted theme changes.
-
-# Set default background once (first image in backgrounds/)
-if [[ -n ${R2D2_PATH:-} ]] && [[ -d "$R2D2_PATH/backgrounds" ]]; then
-  first_bg=$(find "$R2D2_PATH/backgrounds" -maxdepth 1 -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' \) 2>/dev/null | head -1)
-  if [[ -n $first_bg ]]; then
-    ln -nsf "$first_bg" "$R2D2_PATH/background"
-  fi
-fi
+# Set default background once (Omarchy Matte Black)
+ln -nsf "$R2D2_PATH/backgrounds/omarchy-matte-black.jpg" "$R2D2_PATH/background"
 
 rm -rf ~/.config/chromium/SingletonLock
 

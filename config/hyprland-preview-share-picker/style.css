@@ -11,7 +11,7 @@
 
 * {
   all: unset;
-  font-family: CaskaydiaMono Nerd Font Mono;
+  font-family: JetBrainsMono Nerd Font, monospace;
   color: @foreground;
   font-weight: bold;
   font-size: 16px;

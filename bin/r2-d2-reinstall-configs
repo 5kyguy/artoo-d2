@@ -17,4 +17,3 @@ bash "$R2D2_PATH/install/config/theme.sh"
 
 r2-d2-refresh-limine
 r2-d2-refresh-plymouth
-r2-d2-nvim-setup

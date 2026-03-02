@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# R2-D2 logo font for Waybar (optional; skip if not in repo)
+# R2-D2 logo font for Waybar use
 mkdir -p ~/.local/share/fonts
-if [[ -f ~/.local/share/r2-d2/config/r2-d2.ttf ]]; then
-  cp ~/.local/share/r2-d2/config/r2-d2.ttf ~/.local/share/fonts/
-  fc-cache -f
-fi
+cp ~/.local/share/r2-d2/config/r2-d2.ttf ~/.local/share/fonts/
+fc-cache -f

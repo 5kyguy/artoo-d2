@@ -13,12 +13,7 @@ if ! efibootmgr &>/dev/null; then
   exit 1
 fi
 
-if cat /sys/class/dmi/id/bios_vendor 2>/dev/null | grep -qi "American Megatrends"; then
-  echo "Error: American Megatrends firmware may not safely support custom EFI entries" >&2
-  exit 1
-fi
-
-uki_file=$(find /boot/EFI/Linux/ -name "r2-d2*.efi" -printf "%f\n" 2>/dev/null | head -1)
+uki_file=$(find /boot/EFI/Linux/ -name "r2d2*.efi" -printf "%f\n" 2>/dev/null | head -1)
 
 if [[ -z $uki_file ]]; then
   echo "Error: No R2-D2 UKI found in /boot/EFI/Linux/" >&2
