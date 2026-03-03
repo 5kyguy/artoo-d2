@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Enable hibernation
-omarchy-hibernation-setup --force
+r2-d2-hibernation-setup --force
