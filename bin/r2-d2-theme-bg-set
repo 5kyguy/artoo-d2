@@ -10,11 +10,14 @@ fi
 
 BACKGROUND="$1"
 R2D2_ROOT="${R2D2_PATH:-$HOME/.local/share/r2-d2}"
-DEFAULT_BACKGROUND="$R2D2_ROOT/background"
+BACKGROUND_DIR="$R2D2_ROOT/backgrounds"
+BACKGROUND_LINK="$BACKGROUND_DIR/@background"
 
-# Create symlink to the new background
-ln -nsf "$BACKGROUND" "$DEFAULT_BACKGROUND"
+mkdir -p "$BACKGROUND_DIR"
+
+# Create/update symlink to the new background inside backgrounds/
+ln -nsf "$BACKGROUND" "$BACKGROUND_LINK"
 
 # Kill existing swaybg and start new one
 pkill -x swaybg
-setsid uwsm-app -- swaybg -i "$DEFAULT_BACKGROUND" -m fill >/dev/null 2>&1 &
+setsid uwsm-app -- swaybg -i "$BACKGROUND_LINK" -m fill >/dev/null 2>&1 &
