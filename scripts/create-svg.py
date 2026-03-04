@@ -75,9 +75,6 @@ def save_svg_with_embedded_png(img: Image.Image, svg_path: str):
         f.write(svg_content)
 
 def main():
-    img = load_logo("assets/logo.png")
-    alpha_img = extract_foreground_alpha(img)
-
     colors = {
         "white": (255, 255, 255),
         "silver": (192, 192, 192),
@@ -85,14 +82,19 @@ def main():
         "blue": (15, 0, 255),
     }
 
+    img = load_logo("assets/logo.png")
+    alpha_img = extract_foreground_alpha(img)
+
     for color in colors.keys():
         colored_img = colorize_foreground(alpha_img, colors[color])
         save_svg_with_embedded_png(colored_img, f"assets/logo-{color}.svg")
 
-    icon_img = Image.open("assets/icon.png")
-    alpha_img = extract_foreground_alpha(icon_img)
-    colored_img = colorize_foreground(alpha_img, colors["black"])
-    save_svg_with_embedded_png(colored_img, "assets/icon.svg")
+    img = load_logo("assets/icon.png")
+    alpha_img = extract_foreground_alpha(img)
+
+    for color in colors.keys():
+        colored_img = colorize_foreground(alpha_img, colors[color])
+        save_svg_with_embedded_png(colored_img, f"assets/icon-{color}.svg")
 
 if __name__ == "__main__":
     main()
