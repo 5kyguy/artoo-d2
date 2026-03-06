@@ -21,10 +21,12 @@ esac
 
 # Install package
 if r2-d2-pkg-add $package; then
-  # Copy custom desktop entry for alacritty with X-TerminalArg* keys
+  # Copy custom desktop entry with X-TerminalArg* keys for xdg-terminal-exec
+  mkdir -p ~/.local/share/applications
   if [[ $package == "alacritty" ]]; then
-    mkdir -p ~/.local/share/applications
-    cp $R2D2_PATH/applications/Alacritty.desktop ~/.local/share/applications/
+    cp "$R2D2_PATH/applications/Alacritty.desktop" ~/.local/share/applications/
+  elif [[ $package == "ghostty" ]]; then
+    cp "$R2D2_PATH/applications/com.mitchellh.ghostty.desktop" ~/.local/share/applications/
   fi
 
   # Update xdg-terminals.list to prioritize the proper terminal

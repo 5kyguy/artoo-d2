@@ -46,7 +46,7 @@ The installer does **not** verify prerequisites (Arch Linux, x86_64, Btrfs root,
 - **helium.sh** — Install Helium AppImage (webapps)
 - **dev-runtimes.sh** — Go (official tarball to /usr/local) and Node.js (nvm)
 - **fonts.sh** — Copy R2-D2 font (r2-d2.ttf) to `~/.local/share/fonts`, run fc-cache
-- **nvim.sh** — No-op; Neovim uses omarchy-nvim package + theme from config
+- Neovim uses omarchy-nvim package + theme from config (no separate packaging step)
 - **icons.sh** — Copy bundled icons to `~/.local/share/applications/icons`
 - **webapps.sh** — Create web app shortcuts (WhatsApp, YouTube, X, Discord) via Helium when available
 - **tuis.sh** — Add TUI shortcuts (Disk Usage, Docker)
@@ -61,6 +61,7 @@ The installer does **not** verify prerequisites (Arch Linux, x86_64, Btrfs root,
 - **detect-keyboard-layout, xcompose** — Input
 - **docker.sh, flatpak.sh** — Container/flatpak config
 - **mimetypes.sh** — Default apps (e.g. Brave as browser)
+- **terminal-default.sh** — Set Alacritty as default terminal (copy desktop entry; xdg-terminals.list in config)
 - **walker-elephant.sh, fast-shutdown.sh, input-group.sh** (plocate DB: run `r2-d2-update-locate` when needed)
 - **voxtype.sh** — Copy Voxtype config to `~/.config/voxtype/`
 - **kernel-modules-hook.sh, powerprofilesctl-rules.sh, wifi-powersave-rules.sh**
