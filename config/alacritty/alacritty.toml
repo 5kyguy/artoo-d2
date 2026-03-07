@@ -1,5 +1,3 @@
-general.import = [ "~/.config/omarchy/current/theme/alacritty.toml" ]
-
 [env]
 TERM = "xterm-256color"
 
@@ -7,18 +5,53 @@ TERM = "xterm-256color"
 osc52 = "CopyPaste"
 
 [font]
-normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
-italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
+bold = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold" }
+italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Italic" }
 size = 9
 
 [window]
 padding.x = 14
 padding.y = 14
 decorations = "None"
+opacity = 0.75
 
 [keyboard]
 bindings = [
 { key = "Insert", mods = "Shift", action = "Paste" },
-{ key = "Insert", mods = "Control", action = "Copy" }
+{ key = "Insert", mods = "Control", action = "Copy" },
 ]
+
+[colors]
+[colors.primary]
+background = "#121212"
+foreground = "#d4d4d4"
+dim_foreground = "#8a8a8d"
+
+[colors.cursor]
+text = "#121212"
+cursor = "#A85511"
+
+[colors.selection]
+text = "CellForeground"
+background = "#A85511"
+
+[colors.normal]
+black = "#333333"
+red = "#862020"
+green = "#277D46"
+yellow = "#A85511"
+blue = "#8B7F2E"
+magenta = "#932A37"
+cyan = "#2F8383"
+white = "#bebebe"
+
+[colors.bright]
+black = "#8a8a8d"
+red = "#C73838"
+green = "#5BB775"
+yellow = "#E07924"
+blue = "#C6B441"
+magenta = "#C73838"
+cyan = "#46BEBE"
+white = "#eaeaea"

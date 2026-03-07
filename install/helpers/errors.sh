@@ -1,18 +1,4 @@
-# Directs user to Omarchy Discord
-QR_CODE='
-█▀▀▀▀▀█ ▄ ▄ ▀▄▄▄█ █▀▀▀▀▀█
-█ ███ █ ▄▄▄▄▀▄▀▄▀ █ ███ █
-█ ▀▀▀ █ ▄█  ▄█▄▄▀ █ ▀▀▀ █
-▀▀▀▀▀▀▀ ▀▄█ █ █ █ ▀▀▀▀▀▀▀
-▀▀█▀▀▄▀▀▀▀▄█▀▀█  ▀ █ ▀ █
-█▄█ ▄▄▀▄▄ ▀ ▄ ▀█▄▄▄▄ ▀ ▀█
-▄ ▄▀█ ▀▄▀▀▀▄ ▄█▀▄█▀▄▀▄▀█▀
-█ ▄▄█▄▀▄█ ▄▄▄  ▀ ▄▀██▀ ▀█
-▀ ▀   ▀ █ ▀▄  ▀▀█▀▀▀█▄▀
-█▀▀▀▀▀█ ▀█  ▄▀▀ █ ▀ █▄▀██
-█ ███ █ █▀▄▄▀ █▀███▀█▄██▄
-█ ▀▀▀ █ ██  ▀ █▄█ ▄▄▄█▀ █
-▀▀▀▀▀▀▀ ▀ ▀ ▀▀▀  ▀ ▀▀▀▀▀▀'
+#!/bin/bash
 
 # Track if we're already handling an error to prevent double-trapping
 ERROR_HANDLING=false
@@ -24,13 +10,13 @@ show_cursor() {
 
 # Display truncated log lines from the install log
 show_log_tail() {
-  if [[ -f $OMARCHY_INSTALL_LOG_FILE ]]; then
+  if [[ -f $R2D2_INSTALL_LOG_FILE ]]; then
     local log_lines=$((TERM_HEIGHT - LOGO_HEIGHT - 35))
-    local max_line_width=$((LOGO_WIDTH - 4))
+    local max_line_width=${LOG_LINE_WIDTH:-$((LOGO_WIDTH - 4))}
 
-    tail -n $log_lines "$OMARCHY_INSTALL_LOG_FILE" | while IFS= read -r line; do
+    tail -n $log_lines "$R2D2_INSTALL_LOG_FILE" | while IFS= read -r line; do
       if ((${#line} > max_line_width)); then
-        local truncated_line="${line:0:$max_line_width}..."
+        local truncated_line="${line:0:max_line_width}..."
       else
         local truncated_line="$line"
       fi
@@ -49,10 +35,10 @@ show_failed_script_or_command() {
   else
     # Truncate long command lines to fit the display
     local cmd="$BASH_COMMAND"
-    local max_cmd_width=$((LOGO_WIDTH - 4))
+    local max_cmd_width=${LOG_LINE_WIDTH:-$((LOGO_WIDTH - 4))}
 
     if ((${#cmd} > max_cmd_width)); then
-      cmd="${cmd:0:$max_cmd_width}..."
+      cmd="${cmd:0:max_cmd_width}..."
     fi
 
     gum style "$cmd"
@@ -90,31 +76,21 @@ catch_errors() {
   clear_logo
   show_cursor
 
-  gum style --foreground 1 --padding "1 0 1 $PADDING_LEFT" "Omarchy installation stopped!"
+  gum style --foreground 1 --padding "1 0 1 $PADDING_LEFT" "R2-D2 installation stopped!"
   show_log_tail
 
   gum style "This command halted with exit code $exit_code:"
   show_failed_script_or_command
 
-  gum style "$QR_CODE"
-  echo
-  gum style "Get help from the community via QR code or at https://discord.gg/tXFUdasqhY"
-
   # Offer options menu
   while true; do
     options=()
+    options+=("Retry installation")
 
-    # If online install, show retry first
-    if [[ -n ${OMARCHY_ONLINE_INSTALL:-} ]]; then
-      options+=("Retry installation")
-    fi
-
-    # Add upload option if internet is available
     if ping -c 1 -W 1 1.1.1.1 >/dev/null 2>&1; then
-      options+=("Upload log for support")
+      options+=("Upload logs")
     fi
 
-    # Add remaining options
     options+=("View full log")
     options+=("Exit")
 
@@ -122,18 +98,18 @@ catch_errors() {
 
     case "$choice" in
     "Retry installation")
-      bash ~/.local/share/omarchy/install.sh
+      bash ~/.local/share/r2-d2/install.sh
       break
       ;;
     "View full log")
       if command -v less &>/dev/null; then
-        less "$OMARCHY_INSTALL_LOG_FILE"
+        less "$R2D2_INSTALL_LOG_FILE"
       else
-        tail "$OMARCHY_INSTALL_LOG_FILE"
+        tail "$R2D2_INSTALL_LOG_FILE"
       fi
       ;;
-    "Upload log for support")
-      omarchy-upload-log
+    "Upload logs")
+      r2-d2-upload-log
       ;;
     "Exit" | "")
       exit 1
@@ -147,7 +123,7 @@ exit_handler() {
   local exit_code=$?
 
   # Only run if we're exiting with an error and haven't already handled it
-  if (( exit_code != 0 )) && [[ $ERROR_HANDLING != "true" ]]; then
+  if ((exit_code != 0)) && [[ $ERROR_HANDLING != "true" ]]; then
     catch_errors
   else
     stop_log_output

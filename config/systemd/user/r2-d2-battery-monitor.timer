@@ -1,0 +1,11 @@
+[Unit]
+Description=R2-D2 Battery Monitor Timer
+Requires=r2-d2-battery-monitor.service
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=30sec
+AccuracySec=10sec
+
+[Install]
+WantedBy=timers.target

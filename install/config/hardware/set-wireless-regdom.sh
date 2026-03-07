@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # First check that wireless-regdb is there
 if [[ -f "/etc/conf.d/wireless-regdom" ]]; then
   unset WIRELESS_REGDOM
@@ -5,7 +7,7 @@ if [[ -f "/etc/conf.d/wireless-regdom" ]]; then
 fi
 
 # If the region is already set, we're done
-if [[ ! -n ${WIRELESS_REGDOM} ]]; then
+if [[ -z ${WIRELESS_REGDOM} ]]; then
   # Get the current timezone
   if [[ -e "/etc/localtime" ]]; then
     TIMEZONE=$(readlink -f /etc/localtime)

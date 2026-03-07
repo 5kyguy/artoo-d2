@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+# Attempt to reinstall all default R2-D2 packages and reset all the default configs.
+
+echo -e "This will reinstall all the default R2-D2 packages and reset all default configs.\nWarning: All user changes to configs will be lost.\n"
+
+if gum confirm "Are you sure you want to reinstall and lose all config changes?"; then
+  r2-d2-reinstall-git
+  r2-d2-reinstall-pkgs
+  r2-d2-reinstall-configs
+
+  gum confirm "System has been reinstalled. Reboot?" && r2-d2-system-reboot
+fi

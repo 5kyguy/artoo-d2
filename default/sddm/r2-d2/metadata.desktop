@@ -1,0 +1,6 @@
+[SddmGreeterTheme]
+Name=R2-D2
+Description=Minimal terminal-style login theme matching the Limine bootloader aesthetic
+Author=R2-D2
+Type=sddm-theme
+Version=1.0

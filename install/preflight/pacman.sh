@@ -1,17 +1,17 @@
-if [[ -n ${OMARCHY_ONLINE_INSTALL:-} ]]; then
-  # Install build tools
-  omarchy-pkg-add base-devel
+#!/bin/bash
 
-  # Configure pacman
-  sudo cp -f ~/.local/share/omarchy/default/pacman/pacman-${OMARCHY_MIRROR:-stable}.conf /etc/pacman.conf
-  sudo cp -f ~/.local/share/omarchy/default/pacman/mirrorlist-${OMARCHY_MIRROR:-stable} /etc/pacman.d/mirrorlist
+# Install build tools
+r2-d2-pkg-add base-devel
 
-  sudo pacman-key --recv-keys 40DFB630FF42BCFFB047046CF0134EE680CAC571 --keyserver keys.openpgp.org
-  sudo pacman-key --lsign-key 40DFB630FF42BCFFB047046CF0134EE680CAC571
+# Configure pacman (always stable mirror)
+sudo cp -f ~/.local/share/r2-d2/default/pacman/pacman.conf /etc/pacman.conf
+sudo cp -f ~/.local/share/r2-d2/default/pacman/mirrorlist /etc/pacman.d/mirrorlist
 
-  sudo pacman -Sy
-  omarchy-pkg-add omarchy-keyring
+sudo pacman-key --recv-keys 40DFB630FF42BCFFB047046CF0134EE680CAC571 --keyserver keys.openpgp.org
+sudo pacman-key --lsign-key 40DFB630FF42BCFFB047046CF0134EE680CAC571
 
-  # Refresh all repos
-  sudo pacman -Syyuu --noconfirm
-fi
+sudo pacman -Sy
+r2-d2-pkg-add omarchy-keyring
+
+# Refresh all repos
+sudo pacman -Syyuu --noconfirm

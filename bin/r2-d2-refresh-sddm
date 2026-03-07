@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Refresh the SDDM theme from default
+
+sudo rm -rf /usr/share/sddm/themes/r2-d2
+sudo cp -r $R2D2_PATH/default/sddm/r2-d2 /usr/share/sddm/themes/r2-d2

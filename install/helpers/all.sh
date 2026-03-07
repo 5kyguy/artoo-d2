@@ -1,4 +1,6 @@
-source $OMARCHY_INSTALL/helpers/chroot.sh
-source $OMARCHY_INSTALL/helpers/presentation.sh
-source $OMARCHY_INSTALL/helpers/errors.sh
-source $OMARCHY_INSTALL/helpers/logging.sh
+#!/bin/bash
+
+source $R2D2_INSTALL/helpers/chroot.sh
+source $R2D2_INSTALL/helpers/presentation.sh
+source $R2D2_INSTALL/helpers/errors.sh
+source $R2D2_INSTALL/helpers/logging.sh

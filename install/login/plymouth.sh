@@ -1,4 +1,6 @@
-if [[ $(plymouth-set-default-theme) != "omarchy" ]]; then
-  sudo cp -r "$HOME/.local/share/omarchy/default/plymouth" /usr/share/plymouth/themes/omarchy/
-  sudo plymouth-set-default-theme omarchy
+#!/bin/bash
+
+if [[ $(plymouth-set-default-theme) != "r2-d2" ]]; then
+  sudo cp -r "$HOME/.local/share/r2-d2/default/plymouth" /usr/share/plymouth/themes/r2-d2/
+  sudo plymouth-set-default-theme r2-d2
 fi

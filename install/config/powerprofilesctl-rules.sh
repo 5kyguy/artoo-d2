@@ -1,7 +1,9 @@
-if omarchy-battery-present; then
-  mapfile -t profiles < <(omarchy-powerprofiles-list)
+#!/bin/bash
 
-  if (( ${#profiles[@]} > 1 )); then
+if r2-d2-battery-present; then
+  mapfile -t profiles < <(r2-d2-powerprofiles-list)
+
+  if ((${#profiles[@]} > 1)); then
 
     # Default AC profile:
     # 3 profiles → performance

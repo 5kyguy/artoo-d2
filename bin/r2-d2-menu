@@ -1,0 +1,401 @@
+#!/bin/bash
+
+# Launch the R2-D2 Menu or takes a parameter to jump straight to a submenu.
+
+export PATH="$HOME/.local/share/r2-d2/bin:$PATH"
+
+# Set to true when going directly to a submenu, so we can exit directly
+BACK_TO_EXIT=false
+
+back_to() {
+  local parent_menu="$1"
+
+  if [[ $BACK_TO_EXIT == "true" ]]; then
+    exit 0
+  elif [[ -n $parent_menu ]]; then
+    "$parent_menu"
+  else
+    show_main_menu
+  fi
+}
+
+menu() {
+  local prompt="$1"
+  local options="$2"
+  local extra="$3"
+  local preselect="$4"
+
+  read -r -a args <<<"$extra"
+
+  if [[ -n $preselect ]]; then
+    local index
+    index=$(echo -e "$options" | grep -nxF "$preselect" | cut -d: -f1)
+    if [[ -n $index ]]; then
+      args+=("-c" "$index")
+    fi
+  fi
+
+  echo -e "$options" | r2-d2-launch-walker --dmenu --width 295 --minheight 1 --maxheight 630 -p "$prompt…" "${args[@]}" 2>/dev/null
+}
+
+terminal() {
+  xdg-terminal-exec --app-id=org.r2d2.terminal "$@"
+}
+
+present_terminal() {
+  r2-d2-launch-floating-terminal-with-presentation $1
+}
+
+open_in_editor() {
+  notify-send "Editing config file" "$1"
+  r2-d2-launch-editor "$1"
+}
+
+install() {
+  present_terminal "echo 'Installing $1...'; r2-d2-pkg-add $2"
+}
+
+install_and_launch() {
+  present_terminal "echo 'Installing $1...'; r2-d2-pkg-add $2 && setsid gtk-launch $3"
+}
+
+aur_install() {
+  present_terminal "echo 'Installing $1 from AUR...'; r2-d2-pkg-aur-add $2"
+}
+
+aur_install_and_launch() {
+  present_terminal "echo 'Installing $1 from AUR...'; r2-d2-pkg-aur-add $2 && setsid gtk-launch $3"
+}
+
+show_trigger_menu() {
+  case $(menu "Trigger" "  Screenshot\n  Screenrecord\n  Share\n󰔎  Toggle") in
+  *Screenshot*) r2-d2-cmd-screenshot ;;
+  *Screenrecord*) show_screenrecord_menu ;;
+  *Share*) show_share_menu ;;
+  *Toggle*) show_toggle_menu ;;
+  *) show_main_menu ;;
+  esac
+}
+
+get_webcam_list() {
+  v4l2-ctl --list-devices 2>/dev/null | while IFS= read -r line; do
+    if [[ $line != $'\t'* && -n $line ]]; then
+      local name="$line"
+      IFS= read -r device || break
+      device=$(echo "$device" | tr -d '\t' | head -1)
+      [[ -n $device ]] && echo "$device  $name"
+    fi
+  done
+}
+
+show_webcam_select_menu() {
+  local devices
+  devices=$(get_webcam_list)
+  local count
+  count=$(echo "$devices" | grep -c . 2>/dev/null || echo 0)
+
+  if [[ -z $devices ]] || ((count == 0)); then
+    notify-send "No webcam devices found" -u critical -t 3000
+    return 1
+  fi
+
+  if ((count == 1)); then
+    echo "$devices" | awk '{print $1}'
+  else
+    menu "Select Webcam" "$devices" | awk '{print $1}'
+  fi
+}
+
+show_screenrecord_menu() {
+  r2-d2-cmd-screenrecord --stop-recording && exit 0
+
+  case $(menu "Screenrecord" "  With no audio\n  With desktop audio\n  With desktop + microphone audio\n  With desktop + microphone audio + webcam") in
+  *"With no audio") r2-d2-cmd-screenrecord ;;
+  *"With desktop audio") r2-d2-cmd-screenrecord --with-desktop-audio ;;
+  *"With desktop + microphone audio") r2-d2-cmd-screenrecord --with-desktop-audio --with-microphone-audio ;;
+  *"With desktop + microphone audio + webcam")
+    local device
+    device=$(show_webcam_select_menu) || {
+      back_to show_trigger_menu
+      return
+    }
+    r2-d2-cmd-screenrecord --with-desktop-audio --with-microphone-audio --with-webcam --webcam-device="$device"
+    ;;
+  *) back_to show_trigger_menu ;;
+  esac
+}
+
+show_share_menu() {
+  case $(menu "Share" "  Clipboard\n  File \n  Folder") in
+  *Clipboard*) r2-d2-cmd-share clipboard ;;
+  *File*) terminal bash -c "r2-d2-cmd-share file" ;;
+  *Folder*) terminal bash -c "r2-d2-cmd-share folder" ;;
+  *) back_to show_trigger_menu ;;
+  esac
+}
+
+show_toggle_menu() {
+  case $(menu "Toggle" "󱄄  Screensaver\n󰔎  Nightlight\n󱫖  Idle Lock\n󰍜  Top Bar\n󰍹  Device Display\n󰂵  Notification Silencing") in
+  *Screensaver*) r2-d2-toggle-screensaver ;;
+  *Nightlight*) r2-d2-toggle-nightlight ;;
+  *Idle*) r2-d2-toggle-idle ;;
+  *Bar*) r2-d2-toggle-waybar ;;
+  *Device*) r2-d2-toggle-builtin-display ;;
+  *Silencing*) r2-d2-toggle-notification-silencing ;;
+  *) show_trigger_menu ;;
+  esac
+}
+
+show_setup_menu() {
+  local options="  Audio\n  Wifi\n󰂯  Bluetooth\n󱐋  Power Profile\n  System Sleep\n󰱔  DNS\n  Security\n  Dictation (Voxtype)\n󰒲  Reset sudo (lockout)"
+
+  case $(menu "Setup" "$options") in
+  *Audio*) r2-d2-launch-audio ;;
+  *Wifi*) r2-d2-launch-wifi ;;
+  *Bluetooth*) r2-d2-launch-bluetooth ;;
+  *Power*) show_setup_power_menu ;;
+  *System*) show_setup_system_menu ;;
+  *DNS*) present_terminal r2-d2-setup-dns ;;
+  *Security*) show_setup_security_menu ;;
+  *Dictation*) show_setup_dictation_menu ;;
+  *Reset*) present_terminal r2-d2-reset-sudo ;;
+  *) show_main_menu ;;
+  esac
+}
+
+show_setup_dictation_menu() {
+  case $(menu "Dictation" "󰒲  Install / setup\n  Config\n󱚤  Model\n󰒲  Status") in
+  *Install*) present_terminal r2-d2-voxtype-install ;;
+  *Config*) present_terminal r2-d2-voxtype-config ;;
+  *Model*) present_terminal r2-d2-voxtype-model ;;
+  *Status*) present_terminal r2-d2-voxtype-status ;;
+  *) show_setup_menu ;;
+  esac
+}
+
+show_setup_power_menu() {
+  profile=$(menu "Power Profile" "$(r2-d2-powerprofiles-list)" "" "$(powerprofilesctl get)")
+
+  if [[ $profile == "CNCLD" || -z $profile ]]; then
+    back_to show_setup_menu
+  else
+    powerprofilesctl set "$profile"
+  fi
+}
+
+show_setup_security_menu() {
+  case $(menu "Setup" "󰈷  Fingerprint\n  Fido2") in
+  *Fingerprint*) present_terminal r2-d2-setup-fingerprint ;;
+  *Fido2*) present_terminal r2-d2-setup-fido2 ;;
+  *) show_setup_menu ;;
+  esac
+}
+
+show_setup_system_menu() {
+  local options=""
+
+  if [[ -f ~/.local/state/r2-d2/toggles/suspend-off ]]; then
+    options="$options󰒲  Enable Suspend"
+  else
+    options="$options󰒲  Disable Suspend"
+  fi
+
+  if r2-d2-hibernation-available; then
+    options="$options\n󰤁  Disable Hibernate"
+  else
+    options="$options\n󰤁  Enable Hibernate"
+  fi
+
+  case $(menu "System" "$options") in
+  *Suspend*) r2-d2-toggle-suspend ;;
+  *"Enable Hibernate"*) present_terminal r2-d2-hibernation-setup ;;
+  *"Disable Hibernate"*) present_terminal r2-d2-hibernation-remove ;;
+  *) show_setup_menu ;;
+  esac
+}
+
+show_restart_menu() {
+  case $(menu "Restart" "󰍜  Waybar\n󰍜  Walker\n󰍜  Mako\n󰍜  Hypridle\n󰍜  Hyprsunset\n󰍜  SwayOSD\n󰍜  Pipewire\n󰍜  Terminal\n󰍜  Tmux\n󰍜  Wifi\n󰍜  Bluetooth\n󰍜  Hyprctl") in
+  *Waybar*) r2-d2-restart-waybar ;;
+  *Walker*) r2-d2-restart-walker ;;
+  *Mako*) r2-d2-restart-mako ;;
+  *Hypridle*) r2-d2-restart-hypridle ;;
+  *Hyprsunset*) r2-d2-restart-hyprsunset ;;
+  *SwayOSD*) r2-d2-restart-swayosd ;;
+  *Pipewire*) r2-d2-restart-pipewire ;;
+  *Terminal*) r2-d2-restart-terminal ;;
+  *Tmux*) r2-d2-restart-tmux ;;
+  *Wifi*) r2-d2-restart-wifi ;;
+  *Bluetooth*) r2-d2-restart-bluetooth ;;
+  *Hyprctl*) r2-d2-restart-hyprctl ;;
+  *) show_main_menu ;;
+  esac
+}
+
+show_install_menu() {
+  case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n󰵮  Development\n󱚤  AI\n󰊴  Gaming\n󰒲  Dropbox\n󰒲  Tailscale") in
+  *Package*) terminal r2-d2-pkg-install ;;
+  *AUR*) terminal r2-d2-pkg-aur-install ;;
+  *Web*) present_terminal r2-d2-webapp-install ;;
+  *TUI*) present_terminal r2-d2-tui-install ;;
+  *Development*) show_install_development_menu ;;
+  *AI*) show_install_ai_menu ;;
+  *Gaming*) present_terminal "r2-d2-install-steam; r2-d2-install-xbox-controllers" ;;
+  *Dropbox*) present_terminal r2-d2-install-dropbox ;;
+  *Tailscale*) present_terminal r2-d2-install-tailscale ;;
+  *) show_main_menu ;;
+  esac
+}
+
+show_install_ai_menu() {
+  case $(menu "Install" "󱚤  Claude Code\n󱚤  Codex\n󱚤  Gemini CLI\n󱚤  Copilot CLI\n󱚤  Cursor CLI\n󱚤  LM Studio\n󱚤  Ollama\n󱚤  Crush") in
+  *Claude*) install "Claude Code" "claude-code" ;;
+  *Codex*) install "Codex" "openai-codex" ;;
+  *Gemini*) install "Gemini CLI" "gemini-cli" ;;
+  *Copilot*) install "Copilot CLI" "github-copilot-cli" ;;
+  *Cursor*) install "Cursor CLI" "cursor-cli" ;;
+  *Studio*) install "LM Studio" "lmstudio" ;;
+  *Ollama*) install "Ollama" "ollama-rocm" ;;
+  *Crush*) install "Crush" "crush-bin" ;;
+  *) show_install_menu ;;
+  esac
+}
+
+show_install_development_menu() {
+  case $(menu "Install" "  Docker DB\n  JavaScript\n  Go\n  Python\n  Elixir\n  Zig\n  Rust") in
+  *Docker*) present_terminal r2-d2-install-docker-dbs ;;
+  *JavaScript*) show_install_javascript_menu ;;
+  *Go*) present_terminal "r2-d2-install-dev-env go" ;;
+  *Python*) present_terminal "r2-d2-install-dev-env python" ;;
+  *Elixir*) present_terminal "r2-d2-install-dev-env elixir" ;;
+  *Zig*) present_terminal "r2-d2-install-dev-env zig" ;;
+  *Rust*) present_terminal "r2-d2-install-dev-env rust" ;;
+  *) show_install_menu ;;
+  esac
+}
+
+show_install_javascript_menu() {
+  case $(menu "Install" "  Node.js\n  Bun\n  Deno") in
+  *Node*) present_terminal "r2-d2-install-dev-env node" ;;
+  *Bun*) present_terminal "r2-d2-install-dev-env bun" ;;
+  *Deno*) present_terminal "r2-d2-install-dev-env deno" ;;
+  *) show_install_development_menu ;;
+  esac
+}
+
+show_remove_menu() {
+  case $(menu "Remove" "󰣇  Package\n  Web App\n  TUI\n󰵮  Development\n  Dictation\n󰈷  Fingerprint\n  Fido2\n󰒲  Drop package (by name)") in
+  *Package*) terminal r2-d2-pkg-remove ;;
+  *Web*) present_terminal r2-d2-webapp-remove ;;
+  *TUI*) present_terminal r2-d2-tui-remove ;;
+  *Development*) show_remove_development_menu ;;
+  *Dictation*) present_terminal r2-d2-voxtype-remove ;;
+  *Fingerprint*) present_terminal "r2-d2-setup-fingerprint --remove" ;;
+  *Fido2*) present_terminal "r2-d2-setup-fido2 --remove" ;;
+  *Drop*) terminal r2-d2-pkg-drop ;;
+  *) show_main_menu ;;
+  esac
+}
+
+show_remove_development_menu() {
+  case $(menu "Remove" "  JavaScript\n  Go\n  Python\n  Elixir\n  Zig\n  Rust") in
+  *JavaScript*) show_remove_javascript_menu ;;
+  *Go*) present_terminal "r2-d2-remove-dev-env go" ;;
+  *Python*) present_terminal "r2-d2-remove-dev-env python" ;;
+  *Elixir*) present_terminal "r2-d2-remove-dev-env elixir" ;;
+  *Zig*) present_terminal "r2-d2-remove-dev-env zig" ;;
+  *Rust*) present_terminal "r2-d2-remove-dev-env rust" ;;
+  *) show_remove_menu ;;
+  esac
+}
+
+show_remove_javascript_menu() {
+  case $(menu "Remove" "  Node.js\n  Bun\n  Deno") in
+  *Node*) present_terminal "r2-d2-remove-dev-env node" ;;
+  *Bun*) present_terminal "r2-d2-remove-dev-env bun" ;;
+  *Deno*) present_terminal "r2-d2-remove-dev-env deno" ;;
+  *) show_remove_development_menu ;;
+  esac
+}
+
+show_update_menu() {
+  case $(menu "Update" "  R2-D2\n󰣇  System packages\n󰒲  Keyring\n  Firmware\n  Password\n  Timezone\n  Time\n󰒲  Plocate DB\n󰒲  Reinstall") in
+  *R2-D2*) present_terminal r2-d2-update ;;
+  *System*) present_terminal r2-d2-update-system-pkgs ;;
+  *Keyring*) present_terminal r2-d2-update-keyring ;;
+  *Firmware*) present_terminal r2-d2-update-firmware ;;
+  *Timezone*) present_terminal r2-d2-tz-select ;;
+  *Time*) present_terminal r2-d2-update-time ;;
+  *Password*) show_update_password_menu ;;
+  *Plocate*) present_terminal r2-d2-update-locate ;;
+  *Reinstall*) show_reinstall_menu ;;
+  *) show_main_menu ;;
+  esac
+}
+
+show_reinstall_menu() {
+  case $(menu "Reinstall" "󰒲  Reinstall (full)\n󰣇  Reinstall packages only\n󰒲  Reinstall configs only\n󰒲  Reinstall git (re-clone)") in
+  *full*) present_terminal r2-d2-reinstall ;;
+  *packages*) present_terminal r2-d2-reinstall-pkgs ;;
+  *configs*) present_terminal r2-d2-reinstall-configs ;;
+  *git*) present_terminal r2-d2-reinstall-git ;;
+  *) show_update_menu ;;
+  esac
+}
+
+show_update_password_menu() {
+  case $(menu "Update Password" "  Drive Encryption\n  User") in
+  *Drive*) present_terminal r2-d2-drive-set-password ;;
+  *User*) present_terminal passwd ;;
+  *) show_update_menu ;;
+  esac
+}
+
+show_about() {
+  r2-d2-launch-about
+}
+
+show_system_menu() {
+  local options="  Lock\n󱄄  Screensaver"
+  [[ ! -f ~/.local/state/r2-d2/toggles/suspend-off ]] && options="$options\n󰒲  Suspend"
+  r2-d2-hibernation-available && options="$options\n󰤁  Hibernate"
+  options="$options\n󰍃  Logout\n󰜉  Restart\n󰐥  Shutdown"
+
+  case $(menu "System" "$options") in
+  *Screensaver*) r2-d2-launch-screensaver force ;;
+  *Lock*) r2-d2-lock-screen ;;
+  *Suspend*) systemctl suspend ;;
+  *Hibernate*) systemctl hibernate ;;
+  *Logout*) r2-d2-system-logout ;;
+  *Restart*) r2-d2-system-reboot ;;
+  *Shutdown*) r2-d2-system-shutdown ;;
+  *) back_to show_main_menu ;;
+  esac
+}
+
+show_main_menu() {
+  go_to_menu "$(menu "Go" "󱓞  Trigger\n  Setup\n󰍜  Restart\n󰉉  Install\n󰭌  Remove\n  Update\n  About\n  System")"
+}
+
+go_to_menu() {
+  case "${1,,}" in
+  *trigger*) show_trigger_menu ;;
+  *share*) show_share_menu ;;
+  *screenrecord*) show_screenrecord_menu ;;
+  *setup*) show_setup_menu ;;
+  *power*) show_setup_power_menu ;;
+  *restart*) show_restart_menu ;;
+  *install*) show_install_menu ;;
+  *remove*) show_remove_menu ;;
+  *update*) show_update_menu ;;
+  *about*) show_about ;;
+  *system*) show_system_menu ;;
+  esac
+}
+
+if [[ -n $1 ]]; then
+  BACK_TO_EXIT=true
+  go_to_menu "$1"
+else
+  show_main_menu
+fi

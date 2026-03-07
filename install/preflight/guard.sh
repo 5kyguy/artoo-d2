@@ -1,5 +1,5 @@
 abort() {
-  echo -e "\e[31mOmarchy install requires: $1\e[0m"
+  echo -e "\e[31mR2-D2 install requires: $1\e[0m"
   echo
   gum confirm "Proceed anyway on your own accord and without assistance?" || exit 1
 }

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Update the plocate database so locate finds newly installed files.
+# Run this when needed; the system timer also updates it periodically.
+
+sudo updatedb
