@@ -284,11 +284,9 @@ show_install_javascript_menu() {
 }
 
 show_remove_menu() {
-  case $(menu "Remove" "󰣇  Package\n  Web App\n  Web Apps (all)\n  TUI\n  TUI (all)\n󰵮  Development\n  Dictation\n󰈷  Fingerprint\n  Fido2\n󰒲  Drop package (by name)") in
+  case $(menu "Remove" "󰣇  Package\n  Web App\n  TUI\n󰵮  Development\n  Dictation\n󰈷  Fingerprint\n  Fido2\n󰒲  Drop package (by name)") in
   *Package*) terminal r2-d2-pkg-remove ;;
-  *Web Apps (all)*) present_terminal r2-d2-webapp-remove-all ;;
-  *Web App*) present_terminal r2-d2-webapp-remove ;;
-  *TUI (all)*) present_terminal r2-d2-tui-remove-all ;;
+  *Web*) present_terminal r2-d2-webapp-remove ;;
   *TUI*) present_terminal r2-d2-tui-remove ;;
   *Development*) show_remove_development_menu ;;
   *Dictation*) present_terminal r2-d2-voxtype-remove ;;
