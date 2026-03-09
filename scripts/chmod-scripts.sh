@@ -2,18 +2,13 @@
 
 set -euo pipefail
 
-REPO_ROOT=/home/skyguy/.local/share/r2-d2
-
-echo "Making all .sh files executable under $REPO_ROOT..."
+echo "Making all .sh files executable..."
 if command -v find >/dev/null 2>&1; then
-  find "$REPO_ROOT" -type f -name '*.sh' -print0 | xargs -0 chmod +x
+  find . -type f -name '*.sh' -print0 | xargs -0 chmod +x
 else
   echo "find command not available; skipping .sh files" >&2
 fi
 
-if [[ -d "$REPO_ROOT/bin" ]]; then
-  echo "Making all files in bin/ executable..."
-  chmod +x "$REPO_ROOT"/bin/*
+if [[ -d "bin" ]]; then
+  chmod +x bin/*
 fi
-
-echo "Done."

@@ -41,9 +41,9 @@ while ! sudo pacman -Syu --noconfirm --needed git; do
   attempt=$((attempt + 1))
 done
 
-echo -e "\nCloning from: https://github.com/5kyguy/artoo-d2.git (branch: master)"
+echo -e "\nCloning from: https://github.com/5kyguy/r2-d2.git (branch: master)"
 rm -rf ~/.local/share/r2-d2/
-git clone "https://github.com/5kyguy/artoo-d2.git" ~/.local/share/r2-d2 >/dev/null
+git clone "https://github.com/5kyguy/r2-d2.git" ~/.local/share/r2-d2 >/dev/null
 
 cd ~/.local/share/r2-d2 || exit
 git fetch origin master && git checkout master
